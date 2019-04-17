@@ -1,0 +1,149 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>课程排课系统后台</title>
+  <link rel="stylesheet" href="./layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">课程排课系统后台</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+      <li class="layui-nav-item"><a href="TecherList" id="TecherList">教师列表</a></li>
+      <li class="layui-nav-item"><a href="ClassList" id="ClassList">班级列表</a></li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item"><a href="login">退出</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item"><a class="layui-this" href="index">控制台</a></li>
+        <li class="layui-nav-item">
+          <a class="" href="javascript:;">教室设置</a>
+          <dl class="layui-nav-child">
+            <dd><a href="ClassRoomManager">教室管理</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">班级设置</a>
+          <dl class="layui-nav-child">
+            <dd><a href="ClassInsert">班级添加</a></dd>
+            <dd><a href="ClassManager">班级管理</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">教师设置</a>
+            <dl class="layui-nav-child">
+                <dd><a href="TecherInsert">教师添加</a></dd>
+                <dd><a href="TecherManager">教师管理</a></dd>
+                
+            </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">排课工具</a>
+            <dl class="layui-nav-child">
+                <dd><a href="doCourse">一键生成</a></dd>
+            </dl>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <fieldset class="layui-elem-field">
+            <legend>控制台-系统信息</legend>
+            <div class="layui-field-box">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150">
+                        <col width="200">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                        <th>昵称</th>
+                        <th>加入时间</th>
+                        <th>签名</th>
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>贤心</td>
+                        <td>2016-11-29</td>
+                        <td>人生就像是一场修行</td>
+                        </tr>
+                        <tr>
+                        <td>许闲心</td>
+                        <td>2016-11-28</td>
+                        <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
+                        </tr>
+                        <tr>
+                        <td>sentsin</td>
+                        <td>2016-11-27</td>
+                        <td> Life is either a daring adventure or nothing.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+        <fieldset class="layui-elem-field">
+          <legend>控制台-最新公告</legend>
+          <div class="layui-field-box">
+              <table class="layui-table">
+                  <colgroup>
+                      <col width="150">
+                      <col width="200">
+                      <col>
+                  </colgroup>
+                  <thead>
+                      <tr>
+                      <th>昵称</th>
+                      <th>加入时间</th>
+                      <th>签名</th>
+                      </tr> 
+                  </thead>
+                  <tbody>
+                      <tr>
+                      <td>贤心</td>
+                      <td>2016-11-29</td>
+                      <td>人生就像是一场修行</td>
+                      </tr>
+                      <tr>
+                      <td>许闲心</td>
+                      <td>2016-11-28</td>
+                      <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
+                      </tr>
+                      <tr>
+                      <td>sentsin</td>
+                      <td>2016-11-27</td>
+                      <td> Life is either a daring adventure or nothing.</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </fieldset>
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+   
+  </div>
+</div>
+<script type="text/javascript" src="./javascript/jquery.min.js"></script>
+<script type="text/javascript" src="./layui/layui.js"></script>
+<script type="text/javascript" src="./javascript/index.js"></script>
+</body>
+</html>
