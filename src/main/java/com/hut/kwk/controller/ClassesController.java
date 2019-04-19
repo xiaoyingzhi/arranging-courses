@@ -5,7 +5,6 @@ import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.Classes;
 import com.hut.kwk.service.IClassesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,32 +19,28 @@ public class ClassesController {
     @Autowired
     private IClassesService iClassesService;
 
-    @RequestMapping("add/{className}/{classNum}")
-    public ServerResponse<String> add(@PathVariable("className")String className,
-                                      @PathVariable("classNum")String classNum){
-        return iClassesService.add(className,classNum);
+    @RequestMapping("add")
+    public ServerResponse<String> add(String className, String classNum) {
+        return iClassesService.add(className, classNum);
     }
 
-    @RequestMapping("del/{id}/")
-    public ServerResponse<String> del(@PathVariable("id")Integer id){
+    @RequestMapping("del")
+    public ServerResponse<String> del(Integer id) {
         return iClassesService.del(id);
     }
 
-    @RequestMapping("update/{id}/{className}/{classNum}")
-    public ServerResponse<String> update(@PathVariable("id")Integer id,
-                                         @PathVariable("className")String className,
-                                         @PathVariable("classNum")String classNum){
-        return iClassesService.update(id,className,classNum);
+    @RequestMapping("update")
+    public ServerResponse<String> update(Integer id, String className, String classNum) {
+        return iClassesService.update(id, className, classNum);
     }
 
-    @RequestMapping("find/{id}/")
-    public ServerResponse<Classes> find(@PathVariable("id")Integer id){
+    @RequestMapping("find")
+    public ServerResponse<Classes> find(Integer id) {
         return iClassesService.find(id);
     }
 
-    @RequestMapping("findAll/{pageNum}/{pageSize}")
-    public ServerResponse<PageInfo<Classes>> findAll(@PathVariable(value = "pageNum") Integer pageNum,
-                                                     @PathVariable("pageSize") Integer pageSize){
-        return iClassesService.findAll(pageNum,pageSize);
+    @RequestMapping("findAll")
+    public ServerResponse<PageInfo<Classes>> findAll(Integer pageNum, Integer pageSize) {
+        return iClassesService.findAll(pageNum, pageSize);
     }
 }

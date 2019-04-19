@@ -1,9 +1,8 @@
 package com.hut.kwk.service;
 
+import com.github.pagehelper.PageInfo;
 import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.User;
-
-import java.util.List;
 
 /**
  * Create by Wang Heng on 2019-04-17
@@ -17,7 +16,7 @@ public interface IUserService {
 
     ServerResponse<String> del(Integer id);
 
-    ServerResponse<List<User>> findAll(String role);
+    ServerResponse<PageInfo<User>> findAll(String role, Integer pageNum, Integer pageSize);
 
     ServerResponse<User> findById(Integer id);
 

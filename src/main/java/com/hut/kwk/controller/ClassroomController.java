@@ -5,7 +5,6 @@ import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.Classroom;
 import com.hut.kwk.service.IClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,34 +20,28 @@ public class ClassroomController {
     @Autowired
     private IClassroomService iClassroomService;
 
-    @RequestMapping("add/{roomName}/{roomSpace}/{roomLayer}")
-    public ServerResponse<String> add(@PathVariable("roomName")String roomName,
-                                      @PathVariable("roomSpace")Integer roomSpace,
-                                      @PathVariable("roomLayer")Integer roomLayer){
-        return iClassroomService.add(roomName,roomSpace,roomLayer);
+    @RequestMapping("add")
+    public ServerResponse<String> add(String roomName, Integer roomSpace, Integer roomLayer) {
+        return iClassroomService.add(roomName, roomSpace, roomLayer);
     }
 
-    @RequestMapping("del/{id}/")
-    public ServerResponse<String> del(@PathVariable("id")Integer id){
+    @RequestMapping("del")
+    public ServerResponse<String> del(Integer id) {
         return iClassroomService.del(id);
     }
 
-    @RequestMapping("update/{id}/{roomName}/{roomSpace}/{roomLayer}")
-    public ServerResponse<String> update(@PathVariable("id")Integer id,
-                                         @PathVariable("roomName")String roomName,
-                                         @PathVariable("roomSpace")Integer roomSpace,
-                                         @PathVariable("roomLayer")Integer roomLaye){
-        return iClassroomService.update(id,roomName,roomSpace,roomLaye);
+    @RequestMapping("update")
+    public ServerResponse<String> update(Integer id, String roomName, Integer roomSpace, Integer roomLaye) {
+        return iClassroomService.update(id, roomName, roomSpace, roomLaye);
     }
 
-    @RequestMapping("find/{id}/")
-    public ServerResponse<Classroom> find(@PathVariable("id")Integer id){
+    @RequestMapping("find")
+    public ServerResponse<Classroom> find(Integer id) {
         return iClassroomService.find(id);
     }
 
-    @RequestMapping("findAll/{pageNum}/{pageSize}")
-    public ServerResponse<PageInfo<Classroom>> findAll(@PathVariable(value = "pageNum") Integer pageNum,
-                                                       @PathVariable("pageSize") Integer pageSize){
-        return iClassroomService.findAll(pageNum,pageSize);
+    @RequestMapping("findAll")
+    public ServerResponse<PageInfo<Classroom>> findAll(Integer pageNum, Integer pageSize) {
+        return iClassroomService.findAll(pageNum, pageSize);
     }
 }

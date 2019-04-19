@@ -5,7 +5,6 @@ import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.Semester;
 import com.hut.kwk.service.ISemesterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,34 +19,30 @@ public class SemesterController {
     @Autowired
     private ISemesterService iSemesterService;
 
-    @RequestMapping("add/{year}/{semester}/{weekCount}")
-    public ServerResponse<String> add(@PathVariable("year")String year,
-                                      @PathVariable("semester")String semester,
-                                      @PathVariable("weekCount")Integer weekCount){
-        return iSemesterService.add(year,semester,weekCount);
+    @RequestMapping("add")
+    public ServerResponse<String> add(String year,
+                                      String semester,
+                                      Integer weekCount) {
+        return iSemesterService.add(year, semester, weekCount);
     }
 
-    @RequestMapping("del/{id}/")
-    public ServerResponse<String> del(@PathVariable("id")Integer id){
+    @RequestMapping("del")
+    public ServerResponse<String> del(Integer id) {
         return iSemesterService.del(id);
     }
 
-    @RequestMapping("update/{id}/{year}/{semester}/{weekCount}")
-    public ServerResponse<String> update(@PathVariable("id")Integer id,
-                                         @PathVariable("year")String year,
-                                         @PathVariable("semester")String semester,
-                                         @PathVariable("weekCount")Integer weekCount){
-        return iSemesterService.update(id,year,semester,weekCount);
+    @RequestMapping("update")
+    public ServerResponse<String> update(Integer id, String year, String semester, Integer weekCount) {
+        return iSemesterService.update(id, year, semester, weekCount);
     }
 
-    @RequestMapping("find/{id}/")
-    public ServerResponse<Semester> find(@PathVariable("id")Integer id){
+    @RequestMapping("find")
+    public ServerResponse<Semester> find(Integer id) {
         return iSemesterService.find(id);
     }
 
-    @RequestMapping("findAll/{pageNum}/{pageSize}")
-    public ServerResponse<PageInfo<Semester>> findAll(@PathVariable(value = "pageNum") Integer pageNum,
-                                                     @PathVariable("pageSize") Integer pageSize){
-        return iSemesterService.findAll(pageNum,pageSize);
+    @RequestMapping("findAll")
+    public ServerResponse<PageInfo<Semester>> findAll(Integer pageNum, Integer pageSize) {
+        return iSemesterService.findAll(pageNum, pageSize);
     }
 }

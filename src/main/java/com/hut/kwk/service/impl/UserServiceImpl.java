@@ -1,5 +1,7 @@
 package com.hut.kwk.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hut.kwk.constant.Constant;
 import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.User;
@@ -50,7 +52,7 @@ public class UserServiceImpl implements IUserService {
             user.setPassword("");
             return ServerResponse.createBySuccess("登录成功", user);
         }
-        return null;
+        return ServerResponse.createByErrorMessage("账号信息错误");
     }
 
     @Override
@@ -63,13 +65,18 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ServerResponse<List<User>> findAll(String role) {
+    public ServerResponse<PageInfo<User>> findAll(String role, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         UserQuery query = new UserQuery();
+        List<User> users ;
         if (role.equals(Constant.ADMIN)) {
-            return ServerResponse.createBySuccess(userMapper.selectByExample(query));
+            users=  userMapper.selectByExample(query);
+        }else {
+            query.createCriteria().andRoleEqualTo(Constant.NOT_ADMIN);
+            users = userMapper.selectByExample(query);
         }
-        query.createCriteria().andRoleEqualTo(Constant.NOT_ADMIN);
-        return ServerResponse.createBySuccess(userMapper.selectByExample(query));
+        PageInfo<User> pageInfo = new PageInfo<>(users);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
     @Override

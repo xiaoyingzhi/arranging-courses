@@ -1,15 +1,14 @@
 package com.hut.kwk.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.User;
 import com.hut.kwk.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * Create by Wang Heng on 2019-04-17
@@ -31,10 +30,8 @@ public class UserController {
      * @param role
      * @return
      */
-    @RequestMapping("add/{username}/{password}/{role}")
-    public ServerResponse<String> add(@PathVariable("username") String username,
-                                      @PathVariable("password") String password,
-                                      @PathVariable("role") String role) {
+    @RequestMapping("add")
+    public ServerResponse<String> add(String username, String password, String role) {
         return iUserService.add(username, password, role);
 
     }
@@ -48,17 +45,15 @@ public class UserController {
      * @param session
      * @return
      */
-    @RequestMapping("login/{username}/{password}/{role}")
-    public ServerResponse<User> login(@PathVariable("username") String username,
-                                      @PathVariable("password") String password,
-                                      @PathVariable("role") String role, HttpSession session) {
+    @RequestMapping("login")
+    public ServerResponse<User> login(String username, String password, String role, HttpSession session) {
 
         ServerResponse<User> login = iUserService.login(username, password, role);
         if (login.isSuccess()) {
             session.setAttribute(session.getId(), login.getData());
-            return login;
+
         }
-        return ServerResponse.createByErrorMessage("登录失败");
+        return login;
     }
 
     /**
@@ -67,8 +62,8 @@ public class UserController {
      * @param id
      * @return
      */
-    @RequestMapping("del/{id}")
-    public ServerResponse<String> del(@PathVariable("id") Integer id) {
+    @RequestMapping("del")
+    public ServerResponse<String> del(Integer id) {
         return iUserService.del(id);
     }
 
@@ -79,9 +74,10 @@ public class UserController {
      * @return
      */
     @RequestMapping("findAll")
-    public ServerResponse<List<User>> findAll(HttpSession session) {
+    public ServerResponse<PageInfo<User>> findAll(HttpSession session, Integer pageNum, Integer pageSize) {
+
         User user = (User) session.getAttribute(session.getId());
-        return iUserService.findAll(user.getRole());
+        return iUserService.findAll("超级管理员", pageNum, pageSize);
     }
 
     /**
@@ -90,8 +86,8 @@ public class UserController {
      * @param id
      * @return
      */
-    @RequestMapping("find/{id}")
-    public ServerResponse<User> find(@PathVariable("id") Integer id) {
+    @RequestMapping("find")
+    public ServerResponse<User> find(Integer id) {
         return iUserService.findById(id);
     }
 
@@ -103,10 +99,8 @@ public class UserController {
      * @param password
      * @return
      */
-    @RequestMapping("update/{id}/{username}/{passeord}")
-    public ServerResponse<String> update(@PathVariable("id") Integer id,
-                                         @PathVariable("username") String username,
-                                         @PathVariable("password") String password) {
+    @RequestMapping("update")
+    public ServerResponse<String> update(Integer id, String username, String password) {
         return iUserService.update(id, username, password);
     }
 }
