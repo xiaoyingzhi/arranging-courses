@@ -39,7 +39,7 @@
         table.render({
             elem: '#demo'
             , height: 420
-            , url: 'http://139.196.101.194:8088/teacher/findAll' //数据接口
+            , url: 'http://127.0.0.1:8088/teacher/findAll' //数据接口
             , request: {
                 pageName: 'pageNum' //页码的参数名称，默认：page
                 , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -61,6 +61,7 @@
                 , { field: 'teacherName', title: '教师名字', align:"center" }
                 , { field: 'teacherPhone', title: '电话号码',  align:"center" }
                 , { field: 'countLimit', title: '每周课程上限',  align:"center" }
+                , { field: 'statu', title: '课程数',  align: "center" }
                 , { field: 'mark', title: '备注',  align:"center" }
                 , { fixed: 'right',  align: 'center', toolbar: '#barDemo' }
             ]]
@@ -115,7 +116,7 @@
     //删除用户
     function del(data) {
         layer.confirm('真的删除么', function (index) {
-            var url = "http://139.196.101.194:8088/teacher/del?id=" + data.id;
+            var url = "http://127.0.0.1:8088/teacher/del?id=" + data.id;
             $.get(url, function (data, status) {
                 console.log(url)
                 var ret = JSON.parse(JSON.stringify(data));
@@ -145,7 +146,7 @@
     //重新加载table
     function reload() {
         table.reload('demo', {
-            url: 'http://139.196.101.194:8088/teacher/findAll'
+            url: 'http://127.0.0.1:8088/teacher/findAll'
         })
     }
 </script>

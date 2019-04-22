@@ -31,8 +31,8 @@ public class ClassroomController {
     }
 
     @RequestMapping("update")
-    public ServerResponse<String> update(Integer id, String roomName, Integer roomSpace, Integer roomLaye) {
-        return iClassroomService.update(id, roomName, roomSpace, roomLaye);
+    public ServerResponse<String> update(Integer id, String roomName, Integer roomSpace, Integer roomLayer) {
+        return iClassroomService.update(id, roomName, roomSpace, roomLayer);
     }
 
     @RequestMapping("find")
