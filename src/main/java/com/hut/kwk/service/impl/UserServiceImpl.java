@@ -85,10 +85,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ServerResponse<String> update(Integer id, String username, String password) {
+    public ServerResponse<String> update(Integer id, String username, String password,String role) {
         User user = userMapper.selectByPrimaryKey(id);
         user.setUsername(username);
         user.setPassword(password);
+        user.setRole(role);
         int count = userMapper.updateByPrimaryKeySelective(user);
         if (count>0){
             return ServerResponse.createBySuccessMessage("更新成功");

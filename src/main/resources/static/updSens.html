@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <script src="layui/layui.js"></script>
+	<link rel="stylesheet" href="layui/css/layui.css" />
+</head>
+
+<body>
+<form class="layui-form" action="updSens" id="form1" name="form1">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="username" id="username" autocomplete="off" lay-verify="title" placeholder="请输入用户名"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password" id="password" placeholder="请输入密码" lay-verify="pass"
+                   autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">编号:</label>
+        <div class="layui-input-block">
+            <input id="empid" type="text" name="empid" required lay-verify="required" placeholder="请输入编号"
+                   autocomplete="off"
+                   class="layui-input" style="width: 200px" readonly>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名:</label>
+        <div class="layui-input-block">
+            <input id="ename" type="text" name="ename" required lay-verify="required" placeholder="请输入姓名"
+                   autocomplete="off"
+                   class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别:</label>
+        <div class="layui-input-block">
+            <input id="sex" type="text" name="sex" required lay-verify="required" placeholder="请输入性别" autocomplete="off"
+                   class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">年龄:</label>
+        <div class="layui-input-block">
+            <input id="age" type="text" name="age" required lay-verify="required" placeholder="请输入年龄" autocomplete="off"
+                   class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">民族:</label>
+        <div class="layui-input-block">
+            <input id="nation" type="text" name="nation" required lay-verify="required" placeholder="请输入民族"
+                   autocomplete="off" class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门号:</label>
+        <div class="layui-input-block">
+            <input id="deptid" type="text" name="deptid" required lay-verify="required" placeholder="请输入部门号"
+                   autocomplete="off" class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">经理:</label>
+        <div class="layui-input-block">
+            <input id="managerid" type="text" name="managerid" required lay-verify="required" placeholder="请输入经理"
+                   autocomplete="off" class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">email:</label>
+        <div class="layui-input-block">
+            <input id="email" type="text" name="email" required lay-verify="email" placeholder="请输入email"
+                   autocomplete="off"
+                   class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号:</label>
+        <div class="layui-input-block">
+            <input id="ephone" type="text" name="ephone" required lay-verify="required" placeholder="请输入手机号"
+                   autocomplete="off" class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">家庭住址:</label>
+        <div class="layui-input-block">
+            <input id="eaddress" type="text" name="eaddress" required lay-verify="required" placeholder="请输入家庭住址"
+                   autocomplete="off" class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">身份证号:</label>
+        <div class="layui-input-block">
+            <input id="identification" type="text" name="identification" required lay-verify="required"
+                   placeholder="请输入身份证号" autocomplete="off" class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">职责:</label>
+        <div class="layui-input-block">
+            <input id="duty" type="text" name="duty" required lay-verify="required" placeholder="请输入职责"
+                   autocomplete="off"
+                   class="layui-input" style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注:</label>
+        <div class="layui-input-block">
+            <input id="titile" type="text" name="titile" placeholder="请输入备注" autocomplete="off" class="layui-input"
+                   style="width: 200px">
+        </div>
+    </div>
+    <div class="layui-btn-group">
+        <button class="layui-btn " type="submit" onClick="buttonclose()">修改</button>
+        <button class="layui-btn ">删除</button>
+    </div>
+</form>
+<script type="text/javascript">
+    layui.use('form', function () {
+      var form = layui.form;
+
+    });
+    function buttonclose() {
+      var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+      if (!re.test(form1.email.value)) {
+        alert("邮箱格式错误");
+      } else {
+        window.parent.location.reload();//刷新父页面
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        parent.layer.close(index);
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        parent.layer.close(index);
+      }
+    }
+
+</script>
+</body>
+
+</html>

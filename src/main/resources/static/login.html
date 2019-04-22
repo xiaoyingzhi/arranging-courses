@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>课程管理系统-登录</title>
+    <link rel="stylesheet" type="text/css" href="./layui/css/layui.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="./css/login.css" />
+    <script type="text/javascript" src="./javascript/jquery.min.js"></script>
+
+     <script>
+        $(document).ready(function () {
+            $("#login").click(function () {
+                var val = $('input:radio[name="role"]:checked').val();
+                if ($.trim($("#username").val()) == "" || $.trim($("#password").val()) == "" || val == null) {
+                    alert("参数不能为空");
+                } else {
+                    var url = "http://127.0.0.1:8088/user/login?username=" + $("#username").val() + "&password=" + $("#password").val() + "&role=" + $("input[name='role']:checked").val();
+                    $.get(url, function (data, status) {
+                        console.log(url)
+                        var ret = JSON.parse(JSON.stringify(data));
+                        if(ret.status == 1){
+                            alert(ret.msg);
+                        }else{
+                            localStorage.clear;
+                            localStorage.setItem("username", ret.data.username);
+                            localStorage.setItem('role', ret.data.role);
+                            // alert(localStorage.getItem("username"));
+                            // console.log(localStorage.getItem("username"));
+                            window.location = "./index.html";
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+</head>
+
+<body class="beg-login-bg">
+    <div class="beg-login-box">
+        <header>
+            <h1>课程管理系统</h1>
+        </header>
+        <div class="beg-login-main">
+
+            <div class="layui-form-item">
+                <label class="beg-login-icon">
+                    <i class="layui-icon">&#xe612;</i>
+                </label>
+                <input type="text" id="username" lay-verify="required" name="uname" autocomplete="off"
+                    placeholder="这里输入账号" class="layui-input" lay-verType="tips">
+            </div>
+            <div class="layui-form-item">
+                <label class="beg-login-icon">
+                    <i class="layui-icon">&#xe642;</i>
+                </label>
+                <input type="password" id="password" lay-verify="required" name="pwd" autocomplete="off"
+                    placeholder="这里输入密码" class="layui-input" lay-verType="tips">
+            </div>
+            <div class="layui-form-item">
+                <input type="radio" name="role" value="超级管理员" id="role">  超级管理员
+                <input type="radio" name="role" value="普通用户" id="role">  普通用户
+            </div>
+            <div class="layui-form-item">
+                <div class="beg-pull">
+                    <button id="login" class="layui-btn layui-btn-normal" style="width:100%;">登　　录</button>
+                </div>
+            </div>
+
+        </div>
+        <footer>
+            <p>power by kwk © </p>
+        </footer>
+    </div>
+</body>
+
+</html>

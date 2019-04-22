@@ -23,7 +23,7 @@ public class ClassesServiceImpl implements IClassesService {
     private ClassesMapper classesMapper;
 
     @Override
-    public ServerResponse<String> add(String className, String classNum) {
+    public ServerResponse<String> add(String className, String classNum,Integer limit) {
         ClassesQuery query = new ClassesQuery();
         query.createCriteria().andClassNameEqualTo(className);
         Classes classes = classesMapper.selectOneByExample(query);
@@ -33,6 +33,7 @@ public class ClassesServiceImpl implements IClassesService {
         Classes c = new Classes();
         c.setClassName(className);
         c.setClassNumber(classNum);
+        c.setDayLimit(limit);
         int count = classesMapper.insertSelective(c);
         if (count > 0) {
             return ServerResponse.createBySuccessMessage("新建成功");
@@ -50,10 +51,11 @@ public class ClassesServiceImpl implements IClassesService {
     }
 
     @Override
-    public ServerResponse<String> update(Integer id, String className, String classNum) {
+    public ServerResponse<String> update(Integer id, String className, String classNum,Integer limit) {
         Classes classes = classesMapper.selectByPrimaryKey(id);
         classes.setClassName(className);
         classes.setClassNumber(classNum);
+        classes.setDayLimit(limit);
         int count = classesMapper.updateByPrimaryKeySelective(classes);
         if (count > 0) {
             return ServerResponse.createBySuccessMessage("更新成功");

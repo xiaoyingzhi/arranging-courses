@@ -23,7 +23,7 @@ public class TeacherServiceImpl implements ITeacherService {
     private TeacherMapper teacherMapper;
 
     @Override
-    public ServerResponse<String> add(String name, String phone) {
+    public ServerResponse<String> add(String name, String phone,Integer countLimit) {
         TeacherQuery query = new TeacherQuery();
         query.createCriteria().andTeacherNameEqualTo(name);
         Teacher techer = teacherMapper.selectOneByExample(query);
@@ -33,6 +33,7 @@ public class TeacherServiceImpl implements ITeacherService {
         Teacher t = new Teacher();
         t.setTeacherName(name);
         t.setTeacherPhone(phone);
+        t.setCountLimit(countLimit);
         int count = teacherMapper.insertSelective(t);
         if (count > 0) {
             return ServerResponse.createBySuccessMessage("新建成功");
@@ -50,10 +51,11 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     @Override
-    public ServerResponse<String> update(Integer id, String name, String phone) {
+    public ServerResponse<String> update(Integer id, String name, String phone,Integer countLimit) {
         Teacher techer = teacherMapper.selectByPrimaryKey(id);
         techer.setTeacherName(name);
         techer.setTeacherPhone(phone);
+        techer.setCountLimit(countLimit);
         int count = teacherMapper.updateByPrimaryKeySelective(techer);
         if (count > 0) {
             return ServerResponse.createBySuccessMessage("更新成功");

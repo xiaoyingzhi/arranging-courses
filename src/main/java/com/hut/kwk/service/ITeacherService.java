@@ -5,11 +5,11 @@ import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.Teacher;
 
 public interface ITeacherService {
-    ServerResponse<String> add(String name, String phone);
+    ServerResponse<String> add(String name, String phone,Integer countLimit);
 
     ServerResponse<String> del(Integer id);
 
-    ServerResponse<String> update(Integer id, String name, String phone);
+    ServerResponse<String> update(Integer id, String name, String phone,Integer countLimit);
 
     ServerResponse<Teacher> find(Integer id);
 

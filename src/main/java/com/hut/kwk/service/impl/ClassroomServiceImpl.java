@@ -69,6 +69,7 @@ public class ClassroomServiceImpl implements IClassroomService {
         classroom.setRoomName(roomName);
         classroom.setRoomSpace(roomSpace);
         classroom.setRoomLayer(roomLaye);
+        System.out.println(roomLaye);
         int count = classroomMapper.updateByPrimaryKeySelective(classroom);
         if (count > 0) {
             return ServerResponse.createBySuccessMessage("更新成功");

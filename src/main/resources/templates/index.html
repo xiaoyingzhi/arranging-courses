@@ -1,148 +1,242 @@
-
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>课程排课系统后台</title>
-  <link rel="stylesheet" href="./layui/css/layui.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+	<script src="layui/layui.js"></script>
+	<link rel="stylesheet" href="layui/css/layui.css" />
+
 </head>
-<body class="layui-layout-body">
-<div class="layui-layout layui-layout-admin">
-  <div class="layui-header">
-    <div class="layui-logo">课程排课系统后台</div>
-    <!-- 头部区域（可配合layui已有的水平导航） -->
-    <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item"><a href="TecherList" id="TecherList">教师列表</a></li>
-      <li class="layui-nav-item"><a href="ClassList" id="ClassList">班级列表</a></li>
-    </ul>
-    <ul class="layui-nav layui-layout-right">
-      <li class="layui-nav-item"><a href="login">退出</a></li>
-    </ul>
+
+<body>
+
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">人力资源管理系统</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<!--  <ul class="layui-nav layui-layout-left">
+      <li class="layui-nav-item"><a href="">控制台</a></li>
+      <li class="layui-nav-item"><a href="">商品管理</a></li>
+      <li class="layui-nav-item"><a href="">用户</a></li>
+      <li class="layui-nav-item">
+        <a href="javascript:;">其它系统</a>
+        <dl class="layui-nav-child">
+          <dd><a href="">邮件管理</a></dd>
+          <dd><a href="">消息管理</a></dd>
+          <dd><a href="">授权管理</a></dd>
+        </dl>
+      </li>
+    </ul>-->
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+							<%=session.getAttribute("loginName") %>
+						</a>
+						<dl class="layui-nav-child">
+							<dd><a href="">基本资料</a></dd>
+							<!-- <dd><a href="">设置</a></dd> -->
+						</dl>
+					</li>
+					<li class="layui-nav-item"><a href="login.jsp">退出</a></li>
+				</ul>
+			</div>
+
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<ul class="layui-nav layui-nav-tree" lay-filter="test">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a class="" href="javascript:;">人事管理</a>
+							<dl class="layui-nav-child">
+								<dd><a href="">员工管理</a></dd>
+								<dd><a href="javascript:;">部门管理</a></dd>
+								<!--  <dd><a href="">超链接</a></dd>-->
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">考勤管理</a>
+							<dl class="layui-nav-child">
+								<dd><a href="javascript:;">日常考勤</a></dd>
+								<dd><a href="javascript:;">请假考勤</a></dd>
+								<dd><a href="javascript:;">出差考勤</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">薪资管理</a>
+							<dl class="layui-nav-child">
+								<dd><a href="javascript:;">薪资录入</a></dd>
+								<dd><a href="javascript:;">薪资统计</a></dd>
+								<dd><a href="javascript:;">绩效发布</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">培训管理</a>
+							<dl class="layui-nav-child">
+								<dd><a href="javascript:;">培训计划</a></dd>
+								<dd><a href="javascript:;">培训统计</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a href="">通知管理</a></li>
+						<li class="layui-nav-item"><a href="">系统设置</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+
+				<table class="layui-hide" id="test" lay-filter="test"></table>
+				<script type="text/html" id="toolbarDemo">
+
+ <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+    <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+	<button class="layui-btn layui-btn-sm" lay-event="emp-add">添加</button>
   </div>
-  
-  <div class="layui-side layui-bg-black">
-    <div class="layui-side-scroll">
-      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-        <li class="layui-nav-item"><a class="layui-this" href="index">控制台</a></li>
-        <li class="layui-nav-item">
-          <a class="" href="javascript:;">教室设置</a>
-          <dl class="layui-nav-child">
-            <dd><a href="ClassRoomManager">教室管理</a></dd>
-          </dl>
-        </li>
-        <li class="layui-nav-item">
-          <a href="javascript:;">班级设置</a>
-          <dl class="layui-nav-child">
-            <dd><a href="ClassInsert">班级添加</a></dd>
-            <dd><a href="ClassManager">班级管理</a></dd>
-          </dl>
-        </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">教师设置</a>
-            <dl class="layui-nav-child">
-                <dd><a href="TecherInsert">教师添加</a></dd>
-                <dd><a href="TecherManager">教师管理</a></dd>
-                
-            </dl>
-        </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">排课工具</a>
-            <dl class="layui-nav-child">
-                <dd><a href="doCourse">一键生成</a></dd>
-            </dl>
-        </li>
-        
-      </ul>
-    </div>
-  </div>
-  
-  <div class="layui-body">
-    <!-- 内容主体区域 -->
-    <div style="padding: 15px;">
-        <fieldset class="layui-elem-field">
-            <legend>控制台-系统信息</legend>
-            <div class="layui-field-box">
-                <table class="layui-table">
-                    <colgroup>
-                        <col width="150">
-                        <col width="200">
-                        <col>
-                    </colgroup>
-                    <thead>
-                        <tr>
-                        <th>昵称</th>
-                        <th>加入时间</th>
-                        <th>签名</th>
-                        </tr> 
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <td>贤心</td>
-                        <td>2016-11-29</td>
-                        <td>人生就像是一场修行</td>
-                        </tr>
-                        <tr>
-                        <td>许闲心</td>
-                        <td>2016-11-28</td>
-                        <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
-                        </tr>
-                        <tr>
-                        <td>sentsin</td>
-                        <td>2016-11-27</td>
-                        <td> Life is either a daring adventure or nothing.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </fieldset>
-        <fieldset class="layui-elem-field">
-          <legend>控制台-最新公告</legend>
-          <div class="layui-field-box">
-              <table class="layui-table">
-                  <colgroup>
-                      <col width="150">
-                      <col width="200">
-                      <col>
-                  </colgroup>
-                  <thead>
-                      <tr>
-                      <th>昵称</th>
-                      <th>加入时间</th>
-                      <th>签名</th>
-                      </tr> 
-                  </thead>
-                  <tbody>
-                      <tr>
-                      <td>贤心</td>
-                      <td>2016-11-29</td>
-                      <td>人生就像是一场修行</td>
-                      </tr>
-                      <tr>
-                      <td>许闲心</td>
-                      <td>2016-11-28</td>
-                      <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
-                      </tr>
-                      <tr>
-                      <td>sentsin</td>
-                      <td>2016-11-27</td>
-                      <td> Life is either a daring adventure or nothing.</td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
-      </fieldset>
-    </div>
-  </div>
-  
-  <div class="layui-footer">
-    <!-- 底部固定区域 -->
-   
-  </div>
-</div>
-<script type="text/javascript" src="./javascript/jquery.min.js"></script>
-<script type="text/javascript" src="./layui/layui.js"></script>
-<script type="text/javascript" src="./javascript/index.js"></script>
-</body>
+</script>
+
+				<script type="text/html" id="barDemo">
+ <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+</script>
+
+				<table id="demo" lay-filter="test"></table>
+			</div>
+
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				© power by gdw
+			</div>
+		</div>
+		<script>
+			//JavaScript代码区域
+			layui.use('element', function () {
+				var element = layui.element;
+
+			});
+			layui.use(['table', 'form'], function () {   //这个代表引用layui文件modules里面的table.js,所以检查modules是否有table.js
+				var table = layui.table;
+				table.render({
+					elem: '#demo'    //对应table里面的id
+					, toolbar: '#toolbarDemo'
+					, url: 'http://127.0.0.1:8088/user/findAll' //数据接口
+					, request: {
+						pageName: 'pageNum' //页码的参数名称，默认：page
+						, limitName: 'pageSize' //每页数据量的参数名，默认：limit
+					}
+					, parseData: function (res) { //res 即为原始返回的数据
+						return {
+							"code": res.status, //解析接口状态
+							"msg": res.msg, //解析提示文本
+							"count": res.data.total, //解析数据长度
+							"data": res.data.list //解析数据列表
+						};
+					}
+					, title: '用户表'
+					, page: true //开启分页
+					, toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+					, cols: [[ //表头
+						{ type: 'checkbox', fixed: 'left' }
+						, { field: 'id', title: 'ID', width: "5%", sort: true, fixed: 'left', align: "center" }
+						, { field: 'username', title: '用户名', width: "15%", align: "center" }
+						, { field: 'password', title: '密码', width: "15%", align: "center" }
+						, { field: 'role', title: '角色', width: "15%", align: "center" }
+						, { field: 'statu', title: '状态', width: "15%", align: "center" }
+						, { field: 'mark', title: '备注', width: "20%", align: "center" }
+						, { fixed: 'right', width: "15%", align: 'center', toolbar: '#barDemo' }
+					]]
+					, id: 'demo'
+					, page: true
+				});
+
+				//头工具栏事件
+				table.on('toolbar(test)', function (obj) {
+					var checkStatus = table.checkStatus(obj.config.id);
+					switch (obj.event) {
+						case 'getCheckData':
+							var data = checkStatus.data;
+							layer.alert(JSON.stringify(data));
+							break;
+						case 'getCheckLength':
+							var data = checkStatus.data;
+							layer.msg('选中了：' + data.length + ' 个');
+							break;
+						case 'isAll':
+							layer.msg(checkStatus.isAll ? '全选' : '未全选');
+							break;
+						case 'emp-add':
+							layer.open({
+								type: 2,
+								content: "<%=request.getContextPath()%>/openaddSens",
+								area: ['600px', '700px'],
+								success: function (layero, index) {
+									var body = layer.getChildFrame('body', index);
+									var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+								}
+							})
+					};
+				});
+
+				//监听行工具事件
+				table.on('tool(test)', function (obj) {
+					var data = obj.data;
+					var $ = layui.jquery;
+					//console.log(obj)
+					if (obj.event === 'del') {
+						layer.msg(data.empid),
+							layer.confirm("确认删除吗？", function (index) {
+								$.ajax({
+									url: "<%=request.getContextPath()%>/delSens",
+									type: "get",
+									data: { "empid": data.empid },
+									success: function (data) {
+										layer.msg("删除失败", { icon: 5 });
+									},
+									error: function (data) {
+										obj.del();
+										layer.close(index);
+										layer.msg("删除成功", { icon: 6 });
+									}
+								})
+
+							});
+					} else if (obj.event === 'edit') {
+						layer.open({
+							type: 2,
+							content: 'updSens.html',
+							area: ['500px', '700px'],
+							success: function (layero, index) {
+								var body = layer.getChildFrame('body', index);
+								var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+								body.find('#username').val(data.username);
+								body.find('#password').val(data.password);
+							}
+						});
+					}
+				});
+			});
+
+		</script>
+
+		<div class="layui-btn-group">
+			<button class="layui-btn layui-btn-primary layui-btn-sm">
+				<i class="layui-icon">&#xe654;</i>
+			</button>
+			<button class="layui-btn layui-btn-primary layui-btn-sm">
+				<i class="layui-icon">&#xe642;</i>
+			</button>
+			<button class="layui-btn layui-btn-primary layui-btn-sm">
+				<i class="layui-icon">&#xe640;</i>
+			</button>
+		</div>
+		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+		<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+		<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	</body>
+
 </html>

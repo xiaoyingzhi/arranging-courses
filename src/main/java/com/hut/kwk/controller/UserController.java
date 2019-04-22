@@ -1,14 +1,17 @@
 package com.hut.kwk.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.hut.kwk.constant.LayerResponse;
 import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.User;
 import com.hut.kwk.service.IUserService;
+import com.hut.kwk.util.ToLayerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Create by Wang Heng on 2019-04-17
@@ -74,10 +77,11 @@ public class UserController {
      * @return
      */
     @RequestMapping("findAll")
-    public ServerResponse<PageInfo<User>> findAll(HttpSession session, Integer pageNum, Integer pageSize) {
-
+    public LayerResponse<List<User>> findAll(HttpSession session, Integer pageNum, Integer pageSize) {
+        System.out.println("111111111111");
         User user = (User) session.getAttribute(session.getId());
-        return iUserService.findAll("超级管理员", pageNum, pageSize);
+        ServerResponse<PageInfo<User>> all = iUserService.findAll("超级管理员", pageNum, pageSize);
+        return ToLayerUtil.toLayer(all);
     }
 
     /**
@@ -100,7 +104,7 @@ public class UserController {
      * @return
      */
     @RequestMapping("update")
-    public ServerResponse<String> update(Integer id, String username, String password) {
-        return iUserService.update(id, username, password);
+    public ServerResponse<String> update(Integer id, String username, String password,String role) {
+        return iUserService.update(id, username, password,role);
     }
 }

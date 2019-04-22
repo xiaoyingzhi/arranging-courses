@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Wang Heng
  */
 @RestController
-@RequestMapping("/techering/")
+@RequestMapping("/teaching/")
 public class TeachingController {
     @Autowired
     private ITeachingService iTeachingService;

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script type="text/javascript" src="./layui/layui.js"></script>
+    <script type="text/javascript" src="./javascript/jquery.min.js"></script>
+
+
+</head>
+<table class="layui-hide" id="demo" name="user" lay-data="{height: 'full-200', cellMinWidth: 80, page: true, limit:10}"
+    lay-filter="test"></table>
+
+<script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+          <button class="layui-btn layui-btn-sm" lay-event="add">添加用户</button>
+          <button class="layui-btn layui-btn-sm" lay-event="delete">删除用户</button>
+        </div>
+      </script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" id ="update" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  </script>
+<script>
+
+
+</script>
+<script>
+    var table;
+    layui.use(['table'], function () {
+        table = layui.table //表格
+
+        table.render({
+            elem: '#demo'
+            , toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            , height: 420
+            , url: 'http://127.0.0.1:8088/user/findAll' //数据接口
+            , request: {
+                pageName: 'pageNum' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            , title: '用户表'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'id', title: 'ID',  sort: true, fixed: 'left', align: "center" }
+                , { field: 'username', title: '用户名', align: "center" }
+                , { field: 'password', title: '密码',  align: "center" }
+                , { field: 'role', title: '角色', align: "center" }
+                , { field: 'statu', title: '状态',  align: "center" }
+                , { field: 'mark', title: '备注',  align: "center" }
+                , { fixed: 'right', align: 'center', toolbar: '#barDemo' }
+            ]]
+
+        });
+
+        //监听头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id)
+                , data = checkStatus.data; //获取选中的数据
+            switch (obj.event) {
+                case 'add':
+                    add("添加用户");
+                    break;
+                case 'delete':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else if (data.length == 1) {
+                        del(data[0])
+                    } else {
+                        layer.msg("多条删除待开发")
+                    }
+                    break;
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                del(data)
+            } else if (layEvent === 'edit') {
+                opensUer(data, "编辑用户")
+            }
+        });
+    });
+
+    //添加用户
+    function add(title) {
+        var url = 'son/userson.html?tag=add'
+        layer.open({
+            id: 'user',
+            type: 2,
+            title: title,
+            maxmin: true,
+            shadeClose: true, //点击遮罩关闭层
+            area: ['350px', '300px'],
+            content: url,
+            anim: 1,
+        });
+    }
+
+    //删除用户
+    function del(data) {
+        layer.confirm('真的删除么', function (index) {
+            var url = "http://127.0.0.1:8088/user/del?id=" + data.id;
+            $.get(url, function (data, status) {
+                console.log(url)
+                var ret = JSON.parse(JSON.stringify(data));
+                layer.msg(ret.msg);
+                if (ret.status == 0) {
+                    table.reload('demo', {
+                        url: 'http://127.0.0.1:8088/user/findAll'
+                    })
+                }
+            });
+        });
+
+    }
+
+    //打开用户编辑窗口
+    function opensUer(data, title) {
+        var  url = 'son/userson.html?tag=update='+data.id;
+        layer.open({
+            id: 'user',
+            type: 2,
+            title: title,
+            maxmin: true,
+            shadeClose: false, //点击遮罩关闭层
+            area: ['350px', '300px'],
+            content: url,
+            anim: 1,
+        });
+    }
+    //重新加载table
+    function reload() {
+        table.reload('demo', {
+            url: 'http://127.0.0.1:8088/user/findAll'
+        })
+    }
+</script>
+
+<body>
+</body>
+
+</html>

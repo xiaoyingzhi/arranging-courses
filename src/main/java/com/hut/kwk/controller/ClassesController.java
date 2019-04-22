@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Wang Heng
  */
 @RestController
-@RequestMapping("classes")
+@RequestMapping("/classes/")
 public class ClassesController {
     @Autowired
     private IClassesService iClassesService;
 
     @RequestMapping("add")
-    public ServerResponse<String> add(String className, String classNum) {
-        return iClassesService.add(className, classNum);
+    public ServerResponse<String> add(String className, String classNum,Integer limit) {
+        return iClassesService.add(className, classNum,limit);
     }
 
     @RequestMapping("del")
@@ -30,8 +30,8 @@ public class ClassesController {
     }
 
     @RequestMapping("update")
-    public ServerResponse<String> update(Integer id, String className, String classNum) {
-        return iClassesService.update(id, className, classNum);
+    public ServerResponse<String> update(Integer id, String className, String classNum,Integer limit) {
+        return iClassesService.update(id, className, classNum,limit);
     }
 
     @RequestMapping("find")

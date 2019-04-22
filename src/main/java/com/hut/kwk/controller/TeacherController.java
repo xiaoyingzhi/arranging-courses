@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Wang Heng
  */
 @RestController
-@RequestMapping("/techer/")
+@RequestMapping("/teacher/")
 public class TeacherController {
     @Autowired
     private ITeacherService iTeacherService;
 
     @RequestMapping("add")
-    public ServerResponse<String> add(String name, String phone) {
-        return iTeacherService.add(name, phone);
+    public ServerResponse<String> add(String name, String phone,Integer countLimit) {
+        return iTeacherService.add(name, phone,countLimit);
     }
 
     @RequestMapping("del")
@@ -29,9 +29,9 @@ public class TeacherController {
         return iTeacherService.del(id);
     }
 
-    @RequestMapping("del")
-    public ServerResponse<String> update(Integer id, String name, String phone) {
-        return iTeacherService.update(id, name, phone);
+    @RequestMapping("update")
+    public ServerResponse<String> update(Integer id, String name, String phone,Integer countLimit) {
+        return iTeacherService.update(id, name, phone,countLimit);
     }
 
     @RequestMapping("find")

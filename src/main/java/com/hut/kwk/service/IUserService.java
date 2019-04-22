@@ -20,5 +20,5 @@ public interface IUserService {
 
     ServerResponse<User> findById(Integer id);
 
-    ServerResponse<String> update(Integer id, String username, String password);
+    ServerResponse<String> update(Integer id, String username, String password,String role);
 }
