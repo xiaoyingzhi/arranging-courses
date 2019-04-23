@@ -23,6 +23,7 @@
         </div>
       </script>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" id ="update" lay-event="sendCourse">分课</a>
     <a class="layui-btn layui-btn-xs" id ="update" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
   </script>
@@ -93,9 +94,26 @@
                 del(data)
             } else if (layEvent === 'edit') {
                 opensUer(data, "编辑班级")
+            }else if(layEvent == 'sendCourse'){
+                sendCourse("为班级【"+data.className+"】分配课程",data);
             }
         });
     });
+
+    //分课
+    function sendCourse(title,data){
+        var  url = 'son/sendCourse.html?='+data.id+"="+data.className;
+        layer.open({
+            id: 'sendCourse',
+            type: 2,
+            title: title,
+            maxmin: true,
+            shadeClose: false, //点击遮罩关闭层
+            area: ['700px', '850px'],
+            content: url,
+            anim: 1,
+        });
+    }
 
     //添加用户
     function add(title) {

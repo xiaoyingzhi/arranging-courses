@@ -24,6 +24,7 @@
         </div>
       </script>
 <script type="text/html" id="barDemo">
+    <!-- <a class="layui-btn layui-btn-xs layui-btn-normal" id ="update" lay-event="sendCourse">分课</a> -->
     <a class="layui-btn layui-btn-xs" id ="update" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
   </script>
@@ -94,9 +95,16 @@
                 del(data)
             } else if (layEvent === 'edit') {
                 opensUer(data, "编辑教师")
+            }else if(layEvent == 'sendCourse'){
+                
             }
         });
     });
+
+    //分课
+    function sendCourse(title,data){
+
+    }
 
     //添加用户
     function add(title) {
