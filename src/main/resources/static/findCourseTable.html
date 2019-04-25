@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html>
 
@@ -10,19 +7,21 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="./layui/css/layui.css" media="all">
     <script type="text/javascript" src="./layui/layui.js"></script>
     <script type="text/javascript" src="./javascript/jquery.min.js"></script>
 
 
 </head>
-<table class="layui-hide" id="demo" name="user" lay-data="{height: 'full-200', cellMinWidth: 80, page: true, limit:10}"
+<table class="layui-hide" id="demo" name="arr" lay-data="{height: 'full-200', cellMinWidth: 80, page: true, limit:10}"
     lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
-          <button class="layui-btn layui-btn-sm" lay-event="add">添加课程</button>
-          <button class="layui-btn layui-btn-sm" lay-event="delete">删除课程</button>
+          <button class="layui-btn layui-btn-sm" lay-event="add">手动添加排课</button>
+          <button class="layui-btn layui-btn-sm" lay-event="find">条件查询</button>
+          <button class="layui-btn layui-btn-sm" lay-event="arr">重新排课</button>
+
         </div>
       </script>
 <script type="text/html" id="barDemo">
@@ -41,7 +40,7 @@
         table.render({
             elem: '#demo'
             , height: 420
-            , url: 'http://139.196.101.194:8088/course/findAll' //数据接口
+            , url: 'http://139.196.101.194:8088/coursetable/findAll' //数据接口
             , request: {
                 pageName: 'pageNum' //页码的参数名称，默认：page
                 , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -54,16 +53,27 @@
                     "data": res.data.list //解析数据列表
                 };
             }
-            , title: '课程表'
+            // Integer id, Integer arrId, Integer courseId, Integer classId, Integer roomId, 
+            //Integer techerId, Integer semeId, String semeName, Integer timeId, String timeName, 
+            //String courseName, String className, String roomName, String techerName, Integer statu, 
+            //Integer temporary, String mark
+            , title: '班级表'
             , page: true //开启分页
             , toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             , cols: [[ //表头
                 { type: 'checkbox', fixed: 'left' }
-                , { field: 'id', title: 'ID', sort: true, fixed: 'left',align:"center"  }
-                , { field: 'courseName', title: '课程名字', align:"center" }
-                , { field: 'courseTime', title: '课程节数',  align:"center" }
-                , { field: 'statu', title: '安排教师数',  align: "center" }
-                , { fixed: 'right',  align: 'center', toolbar: '#barDemo' }
+                , { field: 'id', title: 'ID', sort: true, fixed: 'left', align: "center" }
+                , { field: 'courseName', title: '课程名', sort: true, align: "center" }
+                , { field: 'className', title: '班级名', sort: true, align: "center" }
+                , { field: 'techerName', title: '教师名', sort: true, align: "center" }
+                , { field: 'roomName', title: '教室名', sort: true, align: "center" }
+                , { field: 'semeName', title: '学期', align: "center" }
+                , { field: 'timeName', title: '星期', align: "center" }
+                , { field: 'timeId', title: '节数', align: "center" }
+                , { field: 'temporary', title: '是否是临时', align: "center" }
+                , { field: 'statu', title: '状态', align: "center" }
+                , { field: 'mark', title: '备注', align: "center" }
+                , { fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo' }
             ]]
         });
 
@@ -73,16 +83,13 @@
                 , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    add("添加课程");
+                    layer.alert("待开发")
                     break;
-                case 'delete':
-                    if (data.length === 0) {
-                        layer.msg('请选择一行');
-                    } else if (data.length == 1) {
-                        del(data[0])
-                    } else {
-                        layer.msg("多条删除待开发")
-                    }
+                case 'find':
+                    layer.alert("待开发")
+                    break;
+                case 'arr':
+                    arr()
                     break;
             };
         });
@@ -92,62 +99,42 @@
             var data = obj.data //获得当前行数据
                 , layEvent = obj.event; //获得 lay-event 对应的值
             if (layEvent === 'del') {
-                del(data)
+                layer.alert("待开发")
             } else if (layEvent === 'edit') {
-                opensUer(data, "编辑课程")
+                layer.alert("待开发")
+            } else if (layEvent == 'sendCourse') {
+                layer.alert("待开发")
             }
         });
     });
 
-    //添加用户
-    function add(title) {
-        var url = 'son/courseson.html?tag=add'
-        layer.open({
-            id: 'user',
-            type: 2,
-            title: title,
-            maxmin: true,
-            shadeClose: true, //点击遮罩关闭层
-            area: ['350px', '380px'],
-            content: url,
-            anim: 1,
-        });
-    }
+    function arr() {
+        //询问框
 
-    //删除用户
-    function del(data) {
-        layer.confirm('真的删除么', function (index) {
-            var url = "http://139.196.101.194:8088/course/del?id=" + data.id;
+        layer.confirm('确定排课吗？可能导致现有排课信息丢失，请先备份排课信息后确定', {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            var index = layer.load(2, { time: 10 * 1000 });
+            var url = "http://139.196.101.194:8088/process/arr";
             $.get(url, function (data, status) {
+                layer.close(index)
                 console.log(url)
                 var ret = JSON.parse(JSON.stringify(data));
-                layer.msg(ret.msg);
                 if (ret.status == 0) {
-                    reload()
+                    layer.msg("排课成功，请点击【查看排课】按钮查看排课");
+                } else {
+                    layer.msg(ret.msg);
                 }
+                reload();
             });
-        });
-
-    }
-
-    //打开用户编辑窗口
-    function opensUer(data, title) {
-        var  url = 'son/courseson.html?tag=update='+data.id;
-        layer.open({
-            id: 'user',
-            type: 2,
-            title: title,
-            maxmin: true,
-            shadeClose: false, //点击遮罩关闭层
-            area: ['350px', '380px'],
-            content: url,
-            anim: 1,
+        }, function () {
         });
     }
+
     //重新加载table
     function reload() {
         table.reload('demo', {
-            url: 'http://139.196.101.194:8088/course/findAll'
+            url: 'http://139.196.101.194:8088/coursetable/findAll'
         })
     }
 </script>

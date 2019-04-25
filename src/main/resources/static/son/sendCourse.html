@@ -61,7 +61,7 @@
 </div>
 <hr class="layui-bg-green">
 <script>
-        //Integer classId, Integer teacherId, Integer semId,String className, String teacherName
+    //Integer classId, Integer teacherId, Integer semId,String className, String teacherName
 
     $("#reset").click(function () {
         $("#courseName").val("")
@@ -73,7 +73,9 @@
         if (a == null || a == "" || b == null || b == "") {
             layer.alert("课程和教师不能为空")
         }
-        var url = "http://127.0.0.1:8088/teaching?classId="+classId+"&teacherId="+teacherId+"&semId=1&className"
+        var url = "http://139.196.101.194:8088/arrange/add?classId=" + classId + "&techerId=" + teacherId
+            + "&semeId=1&className=" + className + "&courseId=" + courseId + "&courseName=" + courseName
+            + "&techerName=" + teacherName
         $.get(url, function (data, status) {
             var ret = JSON.parse(JSON.stringify(data));
             if (ret.status == 1) {
@@ -106,8 +108,7 @@
         table = layui.table //表格
         table.render({
             elem: '#Course'
-            , height: 420
-            , url: 'http://127.0.0.1:8088/course/findAll' //数据接口
+            , url: 'http://139.196.101.194:8088/course/findAll' //数据接口
             , request: {
                 pageName: 'pageNum' //页码的参数名称，默认：page
                 , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -120,7 +121,7 @@
                     "data": res.data.list //解析数据列表
                 };
             }
-            , height: 315
+            , height: 250
             , defaultToolbar: []
             , title: '课程表'
             , page: true //开启分页
@@ -137,8 +138,7 @@
 
         table.render({
             elem: '#Teacher'
-            , height: 420
-            , url: 'http://127.0.0.1:8088/teacher/findAll' //数据接口
+            , url: 'http://139.196.101.194:8088/teacher/findAll' //数据接口
             , request: {
                 pageName: 'pageNum' //页码的参数名称，默认：page
                 , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -153,7 +153,7 @@
             }
             , title: '教师表'
             , defaultToolbar: []
-            , height: 315
+            , height: 250
             , page: true //开启分页
             , toolbar: 'false' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             , cols: [[ //表头
@@ -195,7 +195,7 @@
     //重新加载table
     function reload() {
         table.reload('Course', {
-            url: 'http://127.0.0.1:8088/course/findAll'
+            url: 'http://139.196.101.194:8088/course/findAll'
         })
     }
 </script>
