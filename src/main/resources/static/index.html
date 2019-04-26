@@ -53,6 +53,11 @@
       });
 
       $("#findCourseTable").click(function () {
+        $("#main").attr("src", "courseTable.html");
+      });
+     
+
+      $("#one").click(function () {
         $("#main").attr("src", "findCourseTable.html");
       });
      
@@ -75,7 +80,7 @@
       <!-- 头部区域（可配合layui已有的水平导航） -->
       <ul class="layui-nav layui-layout-left">
         <li class="layui-nav-item "><a id="arrCourse">查看分课</a></li>
-        <li class="layui-nav-item "><a id="findCourseTable">查看排课</a></li>
+        <li class="layui-nav-item "><a id="findCourseTable">查看课表</a></li>
       </ul>
       <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
@@ -106,12 +111,13 @@
             <a href="javascript:;" id="teacher">教师设置</a>
           </li>
           <li class="layui-nav-item">
-            <a href="javascript:;">排课工具</a>
-            <dl class="layui-nav-child">
-              <dd><a id="arrCourse">一键排课</a></dd>
-              <dd><a id="addLimimt">添加限制</a></dd>
-              <dd><a id="updateCourse">临时调课</a></dd>
-            </dl>
+            <a  id="one"  >一键排课</a>
+          </li>
+          <li class="layui-nav-item">
+            <a href="javascript:;" id="addLimimt">添加限制</a>
+          </li>
+          <li class="layui-nav-item">
+            <a href="javascript:;" id="updateCourse">临时调课</a>
           </li>
           <li class="layui-nav-item">
             <a class="" id="user" href="javascript:;">用户管理</a>

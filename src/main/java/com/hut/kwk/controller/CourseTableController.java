@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Create by Wang Heng on 2019-04-24
  *
@@ -20,7 +22,14 @@ public class CourseTableController {
     @Autowired
     private ICourseTableService iCourseTableService;
 
+    @RequestMapping("findBy")
+    public ServerResponse<List<CourseTable>> find(String className, String teacherName) {
+        if ((className==null||"".equals(className)&&(teacherName==null||"".equals(teacherName)))){
+            return ServerResponse.createByErrorMessage("请输入参数");
 
+        }
+        return iCourseTableService.findBy(className,teacherName);
+    }
 
     @RequestMapping("add")
     public ServerResponse<String> add(CourseTable courseTable) {

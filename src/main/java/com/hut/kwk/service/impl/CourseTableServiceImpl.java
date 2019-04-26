@@ -34,6 +34,20 @@ public class CourseTableServiceImpl implements ICourseTableService {
     }
 
     @Override
+    public ServerResponse<List<CourseTable>> findBy(String className, String teacherName) {
+        CourseTableQuery query =new CourseTableQuery();
+        CourseTableQuery.Criteria criteria = query.createCriteria();
+        if (className!=null&&!"".equals(className)){
+            criteria.andClassNameEqualTo(className);
+        }
+        if (teacherName!=null&&!"".equals(teacherName)){
+            criteria.andTecherNameEqualTo(teacherName);
+        }
+        List<CourseTable> courseTables = courseTableMapper.selectByExample(query);
+        return ServerResponse.createBySuccess(courseTables);
+    }
+
+    @Override
     public ServerResponse<String> add(CourseTable courseTable) {
         //todo
         return null;

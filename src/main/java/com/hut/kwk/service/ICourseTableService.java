@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.CourseTable;
 
+import java.util.List;
+
 /**
  * Create by Wang Heng on 2019-04-24
  *
@@ -21,4 +23,6 @@ public interface ICourseTableService {
     ServerResponse<PageInfo<CourseTable>> findAll(Integer pageNum, Integer pageSize);
 
     ServerResponse<String> arr();
+
+    ServerResponse<List<CourseTable>> findBy(String className, String teacherName);
 }

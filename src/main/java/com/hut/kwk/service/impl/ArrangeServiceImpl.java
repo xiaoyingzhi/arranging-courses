@@ -26,7 +26,6 @@ public class ArrangeServiceImpl implements IArrangeService {
     public ServerResponse<String> add(Arrange arrange) {
         ArrangeQuery query = new ArrangeQuery();
         query.createCriteria().andClassIdEqualTo(arrange.getClassId())
-                .andTecherIdEqualTo(arrange.getTecherId())
                 .andCourseIdEqualTo(arrange.getCourseId())
                 .andSemeIdEqualTo(arrange.getSemeId());
         query.setDistinct(true);
