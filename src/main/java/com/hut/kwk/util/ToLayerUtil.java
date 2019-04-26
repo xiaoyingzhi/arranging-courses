@@ -8,9 +8,9 @@ import com.hut.kwk.model.entity.User;
 import java.util.List;
 
 /**
- * Create by Wang Heng on 2019-04-21
+ * Create by kwk on 2019-04-21
  *
- * @author Wang Heng
+ * @author kwk
  */
 public class ToLayerUtil {
     public static LayerResponse<List<User>> toLayer(ServerResponse<PageInfo<User>> serverResponse){

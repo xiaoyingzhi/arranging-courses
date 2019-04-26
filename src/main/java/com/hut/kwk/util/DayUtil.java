@@ -1,9 +1,9 @@
 package com.hut.kwk.util;
 
 /**
- * Create by Wang Heng on 2019-04-25
+ * Create by kwk on 2019-04-25
  *
- * @author Wang Heng
+ * @author kwk
  */
 public class DayUtil {
     public static String toDay(int x){

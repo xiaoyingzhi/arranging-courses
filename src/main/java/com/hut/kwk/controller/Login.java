@@ -3,9 +3,9 @@ package com.hut.kwk.controller;
 import org.springframework.stereotype.Controller;
 
 /**
- * Create by Wang Heng on 2019-04-18
+ * Create by kwk on 2019-04-18
  *
- * @author Wang Heng
+ * @author kwk
  */
 @Controller
 public class Login {

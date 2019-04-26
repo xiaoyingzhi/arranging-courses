@@ -3,9 +3,9 @@ package com.hut.kwk.model.entity;
 import lombok.Data;
 
 /**
- * Create by Wang Heng on 2019-04-25
+ * Create by kwk on 2019-04-25
  *
- * @author Wang Heng
+ * @author kwk
  */
 @Data
 public class ClassroomHelp extends Classroom {

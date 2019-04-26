@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Create by Wang Heng on 2019-04-24
+ * Create by kwk on 2019-04-24
  *
- * @author Wang Heng
+ * @author kwk
  */
 @Service
 public class CourseTableServiceImpl implements ICourseTableService {

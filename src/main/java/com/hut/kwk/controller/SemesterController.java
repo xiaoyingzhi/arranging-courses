@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Create by Wang Heng on 2019-04-17
+ * Create by kwk on 2019-04-17
  *
- * @author Wang Heng
+ * @author kwk
  */
 @RestController
 @RequestMapping("/semester/")

@@ -5,9 +5,9 @@ import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.Arrange;
 
 /**
- * Create by Wang Heng on 2019-04-23
+ * Create by kwk on 2019-04-23
  *
- * @author Wang Heng
+ * @author kwk
  */
 public interface IArrangeService {
     ServerResponse<String> add(Arrange arrange);

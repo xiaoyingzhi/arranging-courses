@@ -5,9 +5,9 @@ import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.User;
 
 /**
- * Create by Wang Heng on 2019-04-17
+ * Create by kwk on 2019-04-17
  *
- * @author Wang Heng
+ * @author kwk
  */
 public interface IUserService {
     ServerResponse<String> add(String username, String password, String role);
