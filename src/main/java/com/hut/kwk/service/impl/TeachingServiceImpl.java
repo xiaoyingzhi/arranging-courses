@@ -7,6 +7,7 @@ import com.hut.kwk.model.entity.Teaching;
 import com.hut.kwk.model.entity.TeachingQuery;
 import com.hut.kwk.model.mapper.TeachingMapper;
 import com.hut.kwk.service.ITeachingService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,9 +76,11 @@ public class TeachingServiceImpl implements ITeachingService {
 
     @Override
     public ServerResponse<PageInfo<Teaching>> findAll(Integer pageNum, Integer pageSize) {
+        TeachingQuery query = new TeachingQuery();
         PageHelper.startPage(pageNum, pageSize);
-        List<Teaching> list = teachingMapper.selectByExample(new TeachingQuery());
+        List<Teaching> list = teachingMapper.selectByExampleWithRowbounds(query,new RowBounds((pageNum-1)*10,pageSize));
         PageInfo<Teaching> pageInfo = new PageInfo<>(list);
+        pageInfo.setTotal(teachingMapper.countByExample(query));
         return ServerResponse.createBySuccess(pageInfo);
     }
 }

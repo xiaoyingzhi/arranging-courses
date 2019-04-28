@@ -7,6 +7,7 @@ import com.hut.kwk.model.entity.Semester;
 import com.hut.kwk.model.entity.SemesterQuery;
 import com.hut.kwk.model.mapper.SemesterMapper;
 import com.hut.kwk.service.ISemesterService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,9 +65,11 @@ public class SemesterServiceImpl implements ISemesterService {
 
     @Override
     public ServerResponse<PageInfo<Semester>> findAll(Integer pageNum, Integer pageSize) {
+        SemesterQuery query = new SemesterQuery();
         PageHelper.startPage(pageNum, pageSize);
-        List<Semester> list = semesterMapper.selectByExample(new SemesterQuery());
+        List<Semester> list = semesterMapper.selectByExampleWithRowbounds(query,new RowBounds((pageNum-1)*10,pageSize));
         PageInfo<Semester> pageInfo = new PageInfo<>(list);
+        pageInfo.setTotal(semesterMapper.countByExample(query));
         return ServerResponse.createBySuccess(pageInfo);
     }
 

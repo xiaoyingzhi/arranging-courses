@@ -7,6 +7,7 @@ import com.hut.kwk.model.entity.Classes;
 import com.hut.kwk.model.entity.ClassesQuery;
 import com.hut.kwk.model.mapper.ClassesMapper;
 import com.hut.kwk.service.IClassesService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,9 +71,11 @@ public class ClassesServiceImpl implements IClassesService {
 
     @Override
     public ServerResponse<PageInfo<Classes>> findAll(Integer pageNum, Integer pageSize) {
+        ClassesQuery query = new ClassesQuery();
         PageHelper.startPage(pageNum, pageSize);
-        List<Classes> list = classesMapper.selectByExample(new ClassesQuery());
+        List<Classes> list = classesMapper.selectByExampleWithRowbounds(query,new RowBounds((pageNum-1)*10,pageSize));
         PageInfo<Classes> pageInfo = new PageInfo<>(list);
+        pageInfo.setTotal(classesMapper.countByExample(query));
         return ServerResponse.createBySuccess(pageInfo);
     }
 }

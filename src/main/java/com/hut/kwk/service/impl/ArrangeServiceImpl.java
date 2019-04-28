@@ -7,6 +7,7 @@ import com.hut.kwk.model.entity.Arrange;
 import com.hut.kwk.model.entity.ArrangeQuery;
 import com.hut.kwk.model.mapper.ArrangeMapper;
 import com.hut.kwk.service.IArrangeService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,9 +69,11 @@ public class ArrangeServiceImpl implements IArrangeService {
 
     @Override
     public ServerResponse<PageInfo<Arrange>> findAll(Integer pageNum, Integer pageSize) {
+        ArrangeQuery query = new ArrangeQuery();
         PageHelper.startPage(pageNum, pageSize);
-        List<Arrange> list = arrangeMapper.selectByExample(new ArrangeQuery());
+        List<Arrange> list = arrangeMapper.selectByExampleWithRowbounds(query,new RowBounds((pageNum-1)*10,pageSize));
         PageInfo<Arrange> pageInfo = new PageInfo<>(list);
+        pageInfo.setTotal(arrangeMapper.countByExample(query));
         return ServerResponse.createBySuccess(pageInfo);
     }
 }

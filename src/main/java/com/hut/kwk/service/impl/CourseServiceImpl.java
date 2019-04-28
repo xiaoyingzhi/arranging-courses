@@ -7,6 +7,7 @@ import com.hut.kwk.model.entity.Course;
 import com.hut.kwk.model.entity.CourseQuery;
 import com.hut.kwk.model.mapper.CourseMapper;
 import com.hut.kwk.service.ICourseService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,9 +70,11 @@ public class CourseServiceImpl implements ICourseService {
 
     @Override
     public ServerResponse<PageInfo<Course>> findAll(Integer pageNum, Integer pageSize) {
+        CourseQuery query = new CourseQuery();
         PageHelper.startPage(pageNum, pageSize);
-        List<Course> list = courseMapper.selectByExample(new CourseQuery());
+        List<Course> list = courseMapper.selectByExampleWithRowbounds(query,new RowBounds((pageNum-1)*10,pageSize));
         PageInfo<Course> pageInfo = new PageInfo<>(list);
+        pageInfo.setTotal(courseMapper.countByExample(query));
         return ServerResponse.createBySuccess(pageInfo);
     }
 }

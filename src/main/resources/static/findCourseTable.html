@@ -39,7 +39,7 @@
 
         table.render({
             elem: '#demo'
-            , height: 420
+          
             , url: 'http://139.196.101.194:8088/coursetable/findAll' //数据接口
             , request: {
                 pageName: 'pageNum' //页码的参数名称，默认：page
@@ -62,17 +62,17 @@
             , toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             , cols: [[ //表头
                 { type: 'checkbox', fixed: 'left' }
-                , { field: 'id', title: 'ID', sort: true, fixed: 'left', align: "center" }
-                , { field: 'courseName', title: '课程名', sort: true, align: "center" }
-                , { field: 'className', title: '班级名', sort: true, align: "center" }
-                , { field: 'techerName', title: '教师名', sort: true, align: "center" }
-                , { field: 'roomName', title: '教室名', sort: true, align: "center" }
-                , { field: 'semeName', title: '学期', align: "center" }
-                , { field: 'timeName', title: '星期', align: "center" }
-                , { field: 'timeId', title: '节数', align: "center" }
-                , { field: 'temporary', title: '是否是临时', align: "center" }
-                , { field: 'statu', title: '状态', align: "center" }
-                , { field: 'mark', title: '备注', align: "center" }
+                , { field: 'id', title: 'ID', sort: true, width: 100, fixed: 'left', align: "center" }
+                , { field: 'courseName', title: '课程名', width: 180, sort: true, align: "center" }
+                , { field: 'className', title: '班级名',  width: 150,sort: true, align: "center" }
+                , { field: 'techerName', title: '教师名', width: 100, sort: true, align: "center" }
+                , { field: 'roomName', title: '教室名', width: 100, sort: true, align: "center" }
+                , { field: 'semeName', title: '学期',  align: "center" }
+                , { field: 'timeName', title: '星期',  align: "center" }
+                , { field: 'timeId', title: '节数',  align: "center" }
+                , { field: 'temporary', title: '是否是临时',  align: "center" }
+                , { field: 'statu', title: '状态',  align: "center" }
+                , { field: 'mark', title: '备注',  align: "center" }
                 , { fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo' }
             ]]
         });

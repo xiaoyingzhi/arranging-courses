@@ -7,6 +7,7 @@ import com.hut.kwk.model.entity.Teacher;
 import com.hut.kwk.model.entity.TeacherQuery;
 import com.hut.kwk.model.mapper.TeacherMapper;
 import com.hut.kwk.service.ITeacherService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,9 +71,11 @@ public class TeacherServiceImpl implements ITeacherService {
 
     @Override
     public ServerResponse<PageInfo<Teacher>> findAll(Integer pageNum, Integer pageSize) {
+        TeacherQuery query = new TeacherQuery();
         PageHelper.startPage(pageNum, pageSize);
-        List<Teacher> list = teacherMapper.selectByExample(new TeacherQuery());
+        List<Teacher> list = teacherMapper.selectByExampleWithRowbounds(query,new RowBounds((pageNum-1)*10,pageSize));
         PageInfo<Teacher> pageInfo = new PageInfo<>(list);
+        pageInfo.setTotal(teacherMapper.countByExample(query));
         return ServerResponse.createBySuccess(pageInfo);
     }
 }

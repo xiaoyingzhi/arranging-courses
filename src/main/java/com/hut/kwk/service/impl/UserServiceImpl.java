@@ -8,6 +8,7 @@ import com.hut.kwk.model.entity.User;
 import com.hut.kwk.model.entity.UserQuery;
 import com.hut.kwk.model.mapper.UserMapper;
 import com.hut.kwk.service.IUserService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,16 +67,21 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse<PageInfo<User>> findAll(String role, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         UserQuery query = new UserQuery();
-        List<User> users ;
+        List<User> users;
+        PageInfo<User> pageInfo;
         if (role.equals(Constant.ADMIN)) {
-            users=  userMapper.selectByExample(query);
-        }else {
+            users = userMapper.selectByExampleWithRowbounds(query, new RowBounds((pageNum - 1) * 10, pageSize));
+            pageInfo = new PageInfo<>(users);
+            pageInfo.setTotal(userMapper.countByExample(query));
+
+        } else {
             query.createCriteria().andRoleEqualTo(Constant.NOT_ADMIN);
-            users = userMapper.selectByExample(query);
+            users = userMapper.selectByExampleWithRowbounds(query, new RowBounds((pageNum - 1) * 10, pageSize));
+            pageInfo = new PageInfo<>(users);
+            pageInfo.setTotal(userMapper.countByExample(query));
         }
-        PageInfo<User> pageInfo = new PageInfo<>(users);
         return ServerResponse.createBySuccess(pageInfo);
     }
 
@@ -85,13 +91,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ServerResponse<String> update(Integer id, String username, String password,String role) {
+    public ServerResponse<String> update(Integer id, String username, String password, String role) {
         User user = userMapper.selectByPrimaryKey(id);
         user.setUsername(username);
         user.setPassword(password);
         user.setRole(role);
         int count = userMapper.updateByPrimaryKeySelective(user);
-        if (count>0){
+        if (count > 0) {
             return ServerResponse.createBySuccessMessage("更新成功");
         }
         return ServerResponse.createByErrorMessage("更新失败");
