@@ -20,8 +20,8 @@ public class CourseController {
     private ICourseService iCourseService;
 
     @RequestMapping("add")
-    public ServerResponse<String> add(String courseName, Integer courseTime) {
-        return iCourseService.add(courseName, courseTime);
+    public ServerResponse<String> add(String courseName, Integer courseTime,Integer sord) {
+        return iCourseService.add(courseName, courseTime,sord);
     }
 
     @RequestMapping("del")
@@ -30,8 +30,8 @@ public class CourseController {
     }
 
     @RequestMapping("update")
-    public ServerResponse<String> update(Integer id, String courseName, Integer courseTime) {
-        return iCourseService.update(id, courseName, courseTime);
+    public ServerResponse<String> update(Integer id, String courseName, Integer courseTime,Integer sord) {
+        return iCourseService.update(id, courseName, courseTime,sord);
     }
 
     @RequestMapping("find")

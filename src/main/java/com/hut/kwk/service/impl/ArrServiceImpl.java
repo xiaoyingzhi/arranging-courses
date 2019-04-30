@@ -33,7 +33,7 @@ public class ArrServiceImpl implements IArrService {
     private ArrangeMapper arrangeMapper;
 
     @Override
-    public ServerResponse<String> arr() {
+    public ServerResponse<String> arr(int weeks) {
         //查出所有 需要排课的课程安排 和 教室
         //todo 现在是全部查出来 条件后面可以修改
 
@@ -43,19 +43,61 @@ public class ArrServiceImpl implements IArrService {
         //教室
         List<Classroom> classrooms = classroomMapper.selectByExample(new ClassroomQuery());
 
-        List<CourseTable> tables = handle(arranges, classrooms, 20);
+        List<CourseTable> tables = handle(arranges, classrooms);
 
+        List<CourseTable> allTables = new ArrayList<>();
+
+        for (int x = 1; x <= weeks; x++) {
+            for (CourseTable courseTable : tables) {
+                if (courseTable.getTemporary() == 0) {
+                    allTables.add(newCourseTable(courseTable,x));
+                } else if (courseTable.getTemporary() == 1) {
+                    if (x % 2 != 0) {
+                        allTables.add(newCourseTable(courseTable,x));
+                    }
+                } else if (courseTable.getTemporary() == 2) {
+                    if (x % 2 == 0) {
+                        allTables.add(newCourseTable(courseTable,x));
+                    }
+                }
+            }
+        }
         courseTableMapper.deleteByExample(new CourseTableQuery());
 
-        int count = courseTableMapper.batchInsert(tables);
+        int count = courseTableMapper.batchInsert(allTables);
 
-        if (count >0){
+        if (count > 0) {
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
     }
 
-    private  List<CourseTable> handle(List<Arrange> arranges, List<Classroom> classrooms, int weeks) {
+    private CourseTable newCourseTable(CourseTable c,Integer week){
+        CourseTable courseTable = new CourseTable();
+        courseTable.setArrId(c.getArrId());
+        courseTable.setClassId(c.getClassId());
+        courseTable.setRoomId(c.getRoomId());
+        courseTable.setTecherId(c.getTecherId());
+        courseTable.setCourseId(c.getCourseId());
+        courseTable.setTimeId(c.getTimeId());
+        courseTable.setTimeName(c.getTimeName());
+        //todo
+        courseTable.setSemeId(c.getSemeId());
+        courseTable.setSemeName(c.getSemeName());
+
+        courseTable.setClassName(c.getClassName());
+        courseTable.setCourseName(c.getCourseName());
+        courseTable.setRoomName(c.getRoomName());
+        courseTable.setTecherName(c.getTecherName());
+        courseTable.setTemporary(c.getTemporary());
+        courseTable.setStatu(week);
+        courseTable.setMark(c.getMark());
+        return courseTable;
+
+
+    }
+
+    private List<CourseTable> handle(List<Arrange> arranges, List<Classroom> classrooms) {
         List<CourseTable> courseTables = new ArrayList<>();
 
         ArrayList<ClassroomHelp> helps = new ArrayList<>();
@@ -69,22 +111,30 @@ public class ArrServiceImpl implements IArrService {
 
         Random ra = new Random();
         int temp;
+        boolean isGo = true;
 
-        for (Arrange arrange :arranges){
-            Integer number = Integer.valueOf(classesMapper.selectByPrimaryKey(arrange.getClassId()).getClassNumber());
+        for (Arrange arrange : arranges) {
+            Integer number = arrange.getStatu();
 
-            temp = ra.nextInt(helps.size()-1);
-            int flag = temp;
-            boolean index = true;
+            temp = ra.nextInt(helps.size() - 1);
 
-            for (int x=0;x<helps.size();x++){
+            for (int x = 0; x < helps.size(); x++) {
                 ClassroomHelp classroom = helps.get(temp);
-                if (classroom.getRoomSpace()>= number){
-                    courseTables.add(toTabel(arrange,classroom));
+                if (classroom.getRoomSpace() >= number) {
+                    courseTables.add(toTabel(arrange, classroom));
                     helps.remove(x);
+                    isGo = true;
                     break;
-                }else {
-                    System.out.println(arrange.toString());
+                } else {
+                    temp++;
+                    if (isGo && temp == helps.size()) {
+                        isGo = false;
+                        temp = 0;
+                    }
+                    if (x == helps.size() - 1) {
+                        isGo = true;
+                        System.out.println(arrange.toString());
+                    }
                 }
             }
         }
@@ -93,7 +143,7 @@ public class ArrServiceImpl implements IArrService {
 
     }
 
-    private CourseTable toTabel(Arrange arrange,ClassroomHelp classroomHelp){
+    private CourseTable toTabel(Arrange arrange, ClassroomHelp classroomHelp) {
         CourseTable courseTable = new CourseTable();
         courseTable.setArrId(arrange.getId());
         courseTable.setClassId(arrange.getClassId());
@@ -110,7 +160,7 @@ public class ArrServiceImpl implements IArrService {
         courseTable.setCourseName(arrange.getCourseName());
         courseTable.setRoomName(classroomHelp.getRoomName());
         courseTable.setTecherName(arrange.getTecherName());
-        courseTable.setTemporary(0);
+        courseTable.setTemporary(arrange.getSrd());
         courseTable.setStatu(0);
         courseTable.setMark("无");
         return courseTable;

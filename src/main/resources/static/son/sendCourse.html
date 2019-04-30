@@ -73,8 +73,8 @@
         if (a == null || a == "" || b == null || b == "") {
             layer.alert("课程和教师不能为空")
         }
-        var url = "http://139.196.101.194:8088/arrange/add?classId=" + classId + "&techerId=" + teacherId
-            + "&semeId=1&className=" + className + "&courseId=" + courseId + "&courseName=" + courseName
+        var url = "http://139.196.101.194:8088/arrange/add?className=" + classNames + "&techerId=" + teacherId
+            + "&semeId=1"  + "&courseId=" + courseId + "&courseName=" + courseName
             + "&techerName=" + teacherName
         $.get(url, function (data, status) {
             var ret = JSON.parse(JSON.stringify(data));
@@ -94,17 +94,16 @@
 
     var table;
     var classId;
-    var className;
+    var classNames;
 
     var teacherId;
     var courseId;
     var teacherName;
     var courseName;
     layui.use(['table'], function () {
-        classId = window.location.href.split("=")[1];
-        className = window.location.href.split("=")[2];
-        $("#className").val(decodeURIComponent(className))
-
+        classNames = window.location.href.split("=")[1];
+       // className = window.location.href.split("=")[2];
+        $("#className").val(decodeURIComponent(classNames))
         table = layui.table //表格
         table.render({
             elem: '#Course'

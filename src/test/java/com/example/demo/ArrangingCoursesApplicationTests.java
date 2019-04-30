@@ -17,7 +17,7 @@ public class ArrangingCoursesApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		iArrService.arr();
+		//iArrService.arr();
 	}
 
 }

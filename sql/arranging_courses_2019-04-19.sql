@@ -5,7 +5,7 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: 127.0.0.1 (MySQL 5.7.25)
+# Host: 139.196.101.194 (MySQL 5.7.25)
 # Database: arranging_courses
 # Generation Time: 2019-04-19 15:47:23 +0000
 # ************************************************************

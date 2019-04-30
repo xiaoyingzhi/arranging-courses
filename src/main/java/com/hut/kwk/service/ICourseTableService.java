@@ -24,5 +24,5 @@ public interface ICourseTableService {
 
     ServerResponse<String> arr();
 
-    ServerResponse<List<CourseTable>> findBy(String className, String teacherName);
+    ServerResponse<List<CourseTable>> findBy(String className, String teacherName,Integer week);
 }

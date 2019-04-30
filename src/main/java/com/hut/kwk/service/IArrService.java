@@ -8,5 +8,5 @@ import com.hut.kwk.constant.ServerResponse;
  * @author kwk
  */
 public interface IArrService {
-    ServerResponse<String> arr();
+    ServerResponse<String> arr(int weeks);
 }

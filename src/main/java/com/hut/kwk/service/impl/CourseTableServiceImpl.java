@@ -35,7 +35,7 @@ public class CourseTableServiceImpl implements ICourseTableService {
     }
 
     @Override
-    public ServerResponse<List<CourseTable>> findBy(String className, String teacherName) {
+    public ServerResponse<List<CourseTable>> findBy(String className, String teacherName,Integer week) {
         CourseTableQuery query =new CourseTableQuery();
         CourseTableQuery.Criteria criteria = query.createCriteria();
         if (className!=null&&!"".equals(className)){
@@ -44,6 +44,7 @@ public class CourseTableServiceImpl implements ICourseTableService {
         if (teacherName!=null&&!"".equals(teacherName)){
             criteria.andTecherNameEqualTo(teacherName);
         }
+        criteria.andStatuEqualTo(week);
         List<CourseTable> courseTables = courseTableMapper.selectByExample(query);
         return ServerResponse.createBySuccess(courseTables);
     }

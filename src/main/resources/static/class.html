@@ -20,10 +20,11 @@
         <div class="layui-btn-container">
           <button class="layui-btn layui-btn-sm" lay-event="add">添加班级</button>
           <button class="layui-btn layui-btn-sm" lay-event="delete">删除班级</button>
+          <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="sendCourse">分配课程</button>
+
         </div>
       </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" id ="update" lay-event="sendCourse">分课</a>
     <a class="layui-btn layui-btn-xs" id ="update" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
   </script>
@@ -38,7 +39,7 @@
 
         table.render({
             elem: '#demo'
-            
+
             , url: 'http://139.196.101.194:8088/classes/findAll' //数据接口
             , request: {
                 pageName: 'pageNum' //页码的参数名称，默认：page
@@ -57,12 +58,12 @@
             , toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             , cols: [[ //表头
                 { type: 'checkbox', fixed: 'left' }
-                , { field: 'id', title: 'ID',  sort: true, fixed: 'left',align:"center"  }
-                , { field: 'className', title: '班级名字',align:"center" }
-                , { field: 'classNumber', title: '班级人数',  align:"center" }
-                , { field: 'statu', title: '课程门数',  align: "center" }
-                , { field: 'dayLimit', title: '每天限制课程数',  align:"center" }
-                , { fixed: 'right',  align: 'center', toolbar: '#barDemo' }
+                , { field: 'id', title: 'ID', sort: true, fixed: 'left', align: "center" }
+                , { field: 'className', title: '班级名字', align: "center" }
+                , { field: 'classNumber', title: '班级人数', align: "center" }
+                , { field: 'statu', title: '课程门数', align: "center" }
+                , { field: 'dayLimit', title: '每天限制课程数', align: "center" }
+                , { fixed: 'right', align: 'center', toolbar: '#barDemo' }
             ]]
         });
 
@@ -83,6 +84,17 @@
                         layer.msg("多条删除待开发")
                     }
                     break;
+                case 'sendCourse':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    }  else {
+                        var name = "";
+                        for(var x = 0;x<data.length;x++){
+                            name = name+"_"+data[x].className;
+                        }
+                        sendCourse("为班级【" + name.substring(1) + "】分配课程", name.substring(1) );
+                    }
+                    break;
             };
         });
 
@@ -94,15 +106,15 @@
                 del(data)
             } else if (layEvent === 'edit') {
                 opensUer(data, "编辑班级")
-            }else if(layEvent == 'sendCourse'){
-                sendCourse("为班级【"+data.className+"】分配课程",data);
+            } else if (layEvent == 'sendCourse') {
+                sendCourse("为班级【" + data.className + "】分配课程", data);
             }
         });
     });
 
     //分课
-    function sendCourse(title,data){
-        var  url = 'son/sendCourse.html?='+data.id+"="+data.className;
+    function sendCourse(title, data) {
+        var url = 'son/sendCourse.html?className='+data;
         layer.open({
             id: 'sendCourse',
             type: 2,
@@ -148,7 +160,7 @@
 
     //打开用户编辑窗口
     function opensUer(data, title) {
-        var  url = 'son/classson.html?tag=update='+data.id;
+        var url = 'son/classson.html?tag=update=' + data.id;
         layer.open({
             id: 'user',
             type: 2,

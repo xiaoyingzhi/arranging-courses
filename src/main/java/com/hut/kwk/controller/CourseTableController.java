@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -24,12 +23,14 @@ public class CourseTableController {
     private ICourseTableService iCourseTableService;
 
     @RequestMapping("findBy")
-    public ServerResponse<List<CourseTable>> find(String className, String teacherName) {
+    public ServerResponse<List<CourseTable>> find(String className, String teacherName,Integer week) {
         if ((className==null||"".equals(className)&&(teacherName==null||"".equals(teacherName)))){
-            return ServerResponse.createByErrorMessage("请输入参数");
-
+            return ServerResponse.createByErrorMessage("请输入正确参数");
         }
-        return iCourseTableService.findBy(className,teacherName);
+        if (week==null||week==0){
+            return ServerResponse.createByErrorMessage("请选择周数");
+        }
+        return iCourseTableService.findBy(className,teacherName,week);
     }
 
     @RequestMapping("add")
@@ -54,9 +55,7 @@ public class CourseTableController {
     }
 
     @RequestMapping("findAll")
-    public ServerResponse<PageInfo<CourseTable>> findAll(HttpServletRequest request, Integer pageNum, Integer pageSize) {
-        System.out.println(request.getRequestURI());
-        System.out.println(pageNum+"  "+pageSize);
+    public ServerResponse<PageInfo<CourseTable>> findAll(Integer pageNum, Integer pageSize) {
         return iCourseTableService.findAll(pageNum, pageSize);
     }
 }

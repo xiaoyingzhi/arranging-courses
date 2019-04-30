@@ -37,4 +37,21 @@ public class DayUtil {
         }
 
     }
+
+    public static Integer toDayNum(String x){
+        switch (x){
+            case "星期一":
+                return 1;
+            case "星期二":
+                return 2;
+            case "星期三":
+                return 3;
+            case "星期四":
+                return 4;
+            case "星期五":
+                return 5;
+            default:
+                return null;
+        }
+    }
 }

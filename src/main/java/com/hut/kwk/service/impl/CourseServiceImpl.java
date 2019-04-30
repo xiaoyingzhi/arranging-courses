@@ -25,7 +25,7 @@ public class CourseServiceImpl implements ICourseService {
     private CourseMapper courseMapper;
 
     @Override
-    public ServerResponse<String> add(String courseName, Integer courseTime) {
+    public ServerResponse<String> add(String courseName, Integer courseTime,Integer sord) {
         CourseQuery query = new CourseQuery();
         query.createCriteria().andCourseNameEqualTo(courseName);
         Course course = courseMapper.selectOneByExample(query);
@@ -35,6 +35,7 @@ public class CourseServiceImpl implements ICourseService {
         Course c = new Course();
         c.setCourseName(courseName);
         c.setCourseTime(courseTime);
+        c.setStatu(sord);
         int count = courseMapper.insertSelective(c);
         if (count > 0) {
             return ServerResponse.createBySuccessMessage("新建成功");
@@ -52,10 +53,11 @@ public class CourseServiceImpl implements ICourseService {
     }
 
     @Override
-    public ServerResponse<String> update(Integer id, String courseName, Integer courseTime) {
+    public ServerResponse<String> update(Integer id, String courseName, Integer courseTime,Integer sord) {
         Course course = courseMapper.selectByPrimaryKey(id);
         course.setCourseName(courseName);
         course.setCourseTime(courseTime);
+        course.setStatu(sord);
         int count = courseMapper.updateByPrimaryKeySelective(course);
         if (count > 0) {
             return ServerResponse.createBySuccessMessage("更新成功");

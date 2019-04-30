@@ -30,116 +30,130 @@
     </style>
 
     <script>
-         var table;
-    layui.use(['table'], function () {
-        table = layui.table //表格
-    });
+        var table;
+        layui.use(['table', 'layedit', 'laydate'], function () {
+            table = layui.table //表
+         
+        });
         $(document).ready(function () {
             $(".clean").css("background-color", "#ffffff");
+            var patrn = /^\+?[1-9][0-9]*$/;
+            var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
             $("#find").click(function () {
-                // $("#a1").html("111111111<br>@2333333<br>@666666")
-                // $("#a1").css("background-color", "#f2f2f2");
-                var url = "http://139.196.101.194:8088/coursetable/findBy?className="+$("#class").val()
-                +"&teacherName="+$("#teacher").val();
-                $.get(url,function(data,status){
-                    console.log(url)
-                    var ret = JSON.parse(JSON.stringify(data));
-                    if(ret.status == 1){
+                var value = $("#week").val();
+                if ($("#week").val() == "" || $("#week").val() == null) {
+                    layer.msg("请输入周次");
+                }else if(value = null || value.length == 0 || patrn.exec(value) == null || value > 20 || value < 1){
+                    layer.msg("周次只能为1-20非空数字");
+                    $("#week").val("");
+                } else {
+                    // $("#a1").html("111111111<br>@2333333<br>@666666")
+                    // $("#a1").css("background-color", "#f2f2f2");
+                    var url = "http://139.196.101.194:8088/coursetable/findBy?className=" + $("#class").val()
+                        + "&teacherName=" + $("#teacher").val()
+                        +"&week="+$("#week").val();
+                    $.get(url, function (data, status) {
+                        console.log(url)
+                        var ret = JSON.parse(JSON.stringify(data));
+                        if (ret.status == 1) {
                             layer.alert(ret.msg);
-                        }else{
+                        } else {
                             $(".clean").html("")
                             $(".clean").css("background-color", "#ffffff");
                             ret.data.forEach(course => {
                                 var day = course.timeName;
-                                var number= course.timeId;
-                                var text = course.courseName+"<br>@"+course.techerName+"<br>@"+course.roomName;
-                                if(day=="星期一"&&number==1){
+                                var number = course.timeId;
+                                var text = course.courseName + "<br>@" + course.techerName + "<br>@" + course.roomName + "<br>@" + course.className;
+                                if (day == "星期一" && number == 1) {
                                     $("#a1").html(text)
                                     $("#a1").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期一"&&number==2){
+                                if (day == "星期一" && number == 2) {
                                     $("#a2").html(text)
                                     $("#a2").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期一"&&number==3){
+                                if (day == "星期一" && number == 3) {
                                     $("#a3").html(text)
                                     $("#a3").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期一"&&number==4){
+                                if (day == "星期一" && number == 4) {
                                     $("#a4").html(text)
                                     $("#a4").css("background-color", "#f2f2f2");
                                 }
-                                
-                                if(day=="星期二"&&number==1){
+
+                                if (day == "星期二" && number == 1) {
                                     $("#b1").html(text)
                                     $("#b1").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期二"&&number==2){
+                                if (day == "星期二" && number == 2) {
                                     $("#b2").html(text)
                                     $("#b2").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期二"&&number==3){
+                                if (day == "星期二" && number == 3) {
                                     $("#b3").html(text)
                                     $("#b3").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期二"&&number==4){
+                                if (day == "星期二" && number == 4) {
                                     $("#b4").html(text)
                                     $("#b4").css("background-color", "#f2f2f2");
                                 }
 
-                                if(day=="星期三"&&number==1){
+                                if (day == "星期三" && number == 1) {
                                     $("#c1").html(text)
                                     $("#c1").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期三"&&number==2){
+                                if (day == "星期三" && number == 2) {
                                     $("#c2").html(text)
                                     $("#c2").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期三"&&number==3){
+                                if (day == "星期三" && number == 3) {
                                     $("#c3").html(text)
                                     $("#c3").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期三"&&number==4){
+                                if (day == "星期三" && number == 4) {
                                     $("#c4").html(text)
                                     $("#c4").css("background-color", "#f2f2f2");
                                 }
 
-                                if(day=="星期四"&&number==1){
+                                if (day == "星期四" && number == 1) {
                                     $("#d1").html(text)
                                     $("#d1").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期四"&&number==2){
+                                if (day == "星期四" && number == 2) {
                                     $("#d2").html(text)
                                     $("#d2").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期四"&&number==3){
+                                if (day == "星期四" && number == 3) {
                                     $("#d3").html(text)
                                     $("#d3").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期四"&&number==4){
+                                if (day == "星期四" && number == 4) {
                                     $("#d4").html(text)
                                     $("#d4").css("background-color", "#f2f2f2");
                                 }
 
-                                if(day=="星期五"&&number==1){
+                                if (day == "星期五" && number == 1) {
                                     $("#e1").html(text)
                                     $("#e1").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期五"&&number==2){
+                                if (day == "星期五" && number == 2) {
                                     $("#e2").html(text)
                                     $("#e2").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期五"&&number==3){
+                                if (day == "星期五" && number == 3) {
                                     $("#e3").html(text)
                                     $("#e3").css("background-color", "#f2f2f2");
                                 }
-                                if(day=="星期五"&&number==4){
+                                if (day == "星期五" && number == 4) {
                                     $("#e4").html(text)
                                     $("#e4").css("background-color", "#f2f2f2");
                                 }
                             });
                         }
-                });
+                    });
+                }
+
+
             });
 
         });
@@ -219,9 +233,16 @@
                         autocomplete="off" class="layui-input">
                 </div>
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">周数</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="week" name="week" value="1" lay-verify="num" placeholder="请输入" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
 
             <div class="layui-form-item">
-                <a class="layui-btn layui-btn" id="find" lay-event="addTeaching" style="margin-left: 150px;">查询课表</a>
+                <a class="layui-btn layui-btn"  id="find" lay-event="addTeaching" style="margin-left: 150px;">查询课表</a>
             </div>
 
         </div>

@@ -19,6 +19,6 @@ public class ArrController {
     private IArrService iArrService;
     @RequestMapping("arr")
     public ServerResponse<String> arr() {
-        return iArrService.arr();
+        return iArrService.arr(20);
     }
 }

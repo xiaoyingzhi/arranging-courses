@@ -5,7 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.hut.kwk.constant.ServerResponse;
 import com.hut.kwk.model.entity.Arrange;
 import com.hut.kwk.model.entity.ArrangeQuery;
+import com.hut.kwk.model.entity.ClassesQuery;
+import com.hut.kwk.model.entity.CourseQuery;
 import com.hut.kwk.model.mapper.ArrangeMapper;
+import com.hut.kwk.model.mapper.ClassesMapper;
+import com.hut.kwk.model.mapper.CourseMapper;
 import com.hut.kwk.service.IArrangeService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +27,36 @@ public class ArrangeServiceImpl implements IArrangeService {
     @Autowired
     private ArrangeMapper arrangeMapper;
 
+    @Autowired
+    private ClassesMapper classesMapper;
+
+    @Autowired
+    private CourseMapper courseMapper;
+
     @Override
     public ServerResponse<String> add(Arrange arrange) {
+        String classNames = arrange.getClassName();
+        String[] split = classNames.split("_");
         ArrangeQuery query = new ArrangeQuery();
-        query.createCriteria().andClassIdEqualTo(arrange.getClassId())
-                .andCourseIdEqualTo(arrange.getCourseId())
+        ArrangeQuery.Criteria criteria = query.createCriteria();
+        criteria.andCourseIdEqualTo(arrange.getCourseId())
                 .andSemeIdEqualTo(arrange.getSemeId());
-        query.setDistinct(true);
-        Arrange byExample = arrangeMapper.selectOneByExample(query);
-        if (byExample!=null){
-            return ServerResponse.createByErrorMessage("已经存在此分配");
+        int number = 0;
+        for (String s : split){
+            criteria.andClassNameLike("%"+s+"%");
+            number+=Integer.valueOf(classesMapper.selectOneByExample(new ClassesQuery()).getClassNumber());
         }
+
+        query.setDistinct(true);
+        Arrange arrange2 = arrangeMapper.selectOneByExample(query);
+
+        if (arrange2 !=  null) {
+           return ServerResponse.createByErrorMessage("班级："+arrange2.getClassName()+" 课程："+arrange2.getCourseName()+" 已经存在分配");
+        }
+        arrange.setStatu(number);
+        arrange.setSrd(courseMapper.selectOneByExample(new CourseQuery()).getStatu());
         int count = arrangeMapper.insertSelective(arrange);
-        if (count ==0){
+        if (count == 0) {
             return ServerResponse.createByErrorMessage("分配失败");
         }
         return ServerResponse.createBySuccessMessage("分配成功");
@@ -71,7 +92,7 @@ public class ArrangeServiceImpl implements IArrangeService {
     public ServerResponse<PageInfo<Arrange>> findAll(Integer pageNum, Integer pageSize) {
         ArrangeQuery query = new ArrangeQuery();
         PageHelper.startPage(pageNum, pageSize);
-        List<Arrange> list = arrangeMapper.selectByExampleWithRowbounds(query,new RowBounds((pageNum-1)*10,pageSize));
+        List<Arrange> list = arrangeMapper.selectByExampleWithRowbounds(query, new RowBounds((pageNum - 1) * 10, pageSize));
         PageInfo<Arrange> pageInfo = new PageInfo<>(list);
         pageInfo.setTotal(arrangeMapper.countByExample(query));
         return ServerResponse.createBySuccess(pageInfo);

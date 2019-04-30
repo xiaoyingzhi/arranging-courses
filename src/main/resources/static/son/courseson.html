@@ -38,7 +38,16 @@
                 </div>
             </div>
        
-
+            <div class="layui-form-item">
+                <label class="layui-form-label">单双周</label>
+                <div class="layui-input-inline">
+                    <select name="modules" id="sord" lay-verify="required" lay-search="">
+                        <option value="0">不区分</option>
+                        <option value="1">单周</option>
+                        <option value="2">双周</option>
+                    </select>
+                </div>
+            </div>
         <div class="layui-form-item layui-form-mid">
             <div class="layui-form-item">
 
@@ -97,10 +106,15 @@
                 //Integer id, String courseName, Integer courseTime
                 var url;
                 if (tag.length == 2) {
-                    url = "http://139.196.101.194:8088/course/add?courseName=" + $("#courseName").val() + "&courseTime=" + $("#courseTime").val();
+                    url = "http://139.196.101.194:8088/course/add?courseName=" + $("#courseName").val()
+                    + "&courseTime=" + $("#courseTime").val()
+                    + "&sord="+$("#sord  option:selected").val();
                 } else if (tag.length == 3) {
                     let id = window.location.href.split("=")[2];
-                    url = "http://139.196.101.194:8088/course/update?id=" + id + "&courseName=" + $("#courseName").val() + "&courseTime=" + $("#courseTime").val();
+                    url = "http://139.196.101.194:8088/course/update?id=" + id
+                    + "&courseName=" + $("#courseName").val() 
+                    + "&courseTime=" + $("#courseTime").val()
+                    +"&sord="+$("#sord  option:selected").val();
                 }
                 console.log(url)
                 var datas = JSON.parse(JSON.stringify(data.field));
