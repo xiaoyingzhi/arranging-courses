@@ -43,4 +43,8 @@ public class CourseController {
     public ServerResponse<PageInfo<Course>> findAll(Integer pageNum, Integer pageSize) {
         return iCourseService.findAll(pageNum, pageSize);
     }
+    @RequestMapping("findAllByName")
+    public ServerResponse<PageInfo<Course>> findAllByName(Integer pageNum, Integer pageSize,String courseName) {
+        return iCourseService.findAllByName(pageNum, pageSize,courseName);
+    }
 }

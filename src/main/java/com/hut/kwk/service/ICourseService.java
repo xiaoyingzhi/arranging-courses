@@ -14,4 +14,6 @@ public interface ICourseService {
     ServerResponse<Course> find(Integer id);
 
     ServerResponse<PageInfo<Course>> findAll(Integer pageNum, Integer pageSize);
+
+    ServerResponse<PageInfo<Course>> findAllByName(Integer pageNum, Integer pageSize, String courseName);
 }

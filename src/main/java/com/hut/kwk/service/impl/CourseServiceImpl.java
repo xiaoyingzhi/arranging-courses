@@ -79,4 +79,15 @@ public class CourseServiceImpl implements ICourseService {
         pageInfo.setTotal(courseMapper.countByExample(query));
         return ServerResponse.createBySuccess(pageInfo);
     }
+
+    @Override
+    public ServerResponse<PageInfo<Course>> findAllByName(Integer pageNum, Integer pageSize, String courseName) {
+        CourseQuery query = new CourseQuery();
+        query.createCriteria().andCourseNameLike("%"+courseName+"%");
+        PageHelper.startPage(pageNum, pageSize);
+        List<Course> list = courseMapper.selectByExampleWithRowbounds(query,new RowBounds((pageNum-1)*10,pageSize));
+        PageInfo<Course> pageInfo = new PageInfo<>(list);
+        pageInfo.setTotal(courseMapper.countByExample(query));
+        return ServerResponse.createBySuccess(pageInfo);
+    }
 }

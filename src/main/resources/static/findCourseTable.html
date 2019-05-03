@@ -13,19 +13,49 @@
 
 
 </head>
+<div class="layui-form-item" style="margin-top: 15px;">
+    <label class="layui-form-label">周次：</label>
+    <div class="layui-input-inline" style="width: 50px;">
+        <input type="text" id="week" name="week" value="1" lay-verify="num" placeholder="请输入" autocomplete="off"
+            class="layui-input">
+    </div>
+    <label class="layui-form-label">课程名：</label>
+    <div class="layui-input-inline" style="width: 100px;">
+        <input type="text" id="courseName" name="courseName"  lay-verify="required" placeholder="模糊搜索" autocomplete="off"
+            class="layui-input">
+    </div>
+    <label class="layui-form-label">班级名：</label>
+    <div class="layui-input-inline" style="width: 100px;">
+        <input type="text" id="className" name="className" lay-verify="required" placeholder="模糊搜索" autocomplete="off"
+            class="layui-input">
+    </div>
+
+    <label class="layui-form-label">教师名：</label>
+    <div class="layui-input-inline" style="width: 100px;">
+        <input type="text" id="teacherName" name="teacherName" lay-verify="num" placeholder="模糊搜索" autocomplete="off"
+            class="layui-input">
+    </div>
+    <label class="layui-form-label">教室名：</label>
+    <div class="layui-input-inline" style="width: 100px;">
+        <input type="text" id="roomName" name="roomName" lay-verify="num" placeholder="模糊搜索" autocomplete="off"
+            class="layui-input">
+    </div>
+    <a class="layui-btn layui-btn" id="findBy" lay-event="addTeaching" style="margin-left: 50px;">查询排课</a>
+
+</div>
+
 <table class="layui-hide" id="demo" name="arr" lay-data="{height: 'full-200', cellMinWidth: 80, page: true, limit:10}"
     lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
-          <button class="layui-btn layui-btn-sm" lay-event="add">手动添加排课</button>
-          <button class="layui-btn layui-btn-sm" lay-event="find">条件查询</button>
+          <!-- <button class="layui-btn layui-btn-sm" lay-event="add">手动添加排课</button>
+          <button class="layui-btn layui-btn-sm" lay-event="find">条件查询</button> -->
           <button class="layui-btn layui-btn-sm" lay-event="arr">重新排课</button>
 
         </div>
       </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" id ="update" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
   </script>
 <script>
@@ -34,12 +64,33 @@
 </script>
 <script>
     var table;
+    $(document).ready(function () {
+        var patrn = /^\+?[1-9][0-9]*$/;
+        $("#findBy").click(function () {
+            var value = $("#week").val();
+            if ($("#week").val() == "" || $("#week").val() == null) {
+                layer.msg("请输入周次");
+            } else if (value = null || value.length == 0 || patrn.exec(value) == null || value > 20 || value < 1) {
+                layer.msg("周次只能为1-20非空数字");
+                $("#week").val("");
+            } else {
+                table.reload('demo', {
+                    url: "http://139.196.101.194:8088/coursetable/findAllBy?week=" + $("#week").val()
+                    + "&teacherName=" + $("#teacherName").val()
+                    +"&courseName=" + $("#courseName").val()
+                    +"&className=" + $("#className").val()
+                    +"&roomName=" + $("#roomName").val()
+                })
+            }
+        });
+
+    });
     layui.use(['table'], function () {
         table = layui.table //表格
 
         table.render({
             elem: '#demo'
-          
+
             , url: 'http://139.196.101.194:8088/coursetable/findAll' //数据接口
             , request: {
                 pageName: 'pageNum' //页码的参数名称，默认：page
@@ -64,15 +115,15 @@
                 { type: 'checkbox', fixed: 'left' }
                 , { field: 'id', title: 'ID', sort: true, width: 100, fixed: 'left', align: "center" }
                 , { field: 'courseName', title: '课程名', width: 180, sort: true, align: "center" }
-                , { field: 'className', title: '班级名',  width: 150,sort: true, align: "center" }
+                , { field: 'className', title: '班级名', width: 150, sort: true, align: "center" }
                 , { field: 'techerName', title: '教师名', width: 100, sort: true, align: "center" }
                 , { field: 'roomName', title: '教室名', width: 100, sort: true, align: "center" }
-                , { field: 'semeName', title: '学期',  align: "center" }
-                , { field: 'statu', title: '周次',  align: "center" }
-                , { field: 'timeName', title: '星期',  align: "center" }
-                , { field: 'timeId', title: '节数',  align: "center" }
-                , { field: 'temporary', title: '是否是临时',  align: "center" }
-                , { field: 'mark', title: '备注',  align: "center" }
+                , { field: 'semeName', title: '学期', align: "center" }
+                , { field: 'statu', title: '周次', align: "center" }
+                , { field: 'timeName', title: '星期', align: "center" }
+                , { field: 'timeId', title: '节数', align: "center" }
+                , { field: 'temporary', title: '是否是临时', align: "center" }
+                , { field: 'mark', title: '备注', align: "center" }
                 , { fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo' }
             ]]
         });
@@ -106,6 +157,15 @@
                 layer.alert("待开发")
             }
         });
+    });
+
+    $(document).ready(function () {
+        $("#find").click(function () {
+            table.reload('demo', {
+                url: "http://139.196.101.194:8088/course/findAllByName?courseName=" + $("#courseName").val()
+            })
+        });
+
     });
 
     function arr() {

@@ -25,4 +25,6 @@ public interface ICourseTableService {
     ServerResponse<String> arr();
 
     ServerResponse<List<CourseTable>> findBy(String className, String teacherName,Integer week);
+
+    ServerResponse<PageInfo<CourseTable>> findAllBy(Integer pageNum, Integer pageSize, Integer week, String courseName, String className, String teacherName, String roomName);
 }

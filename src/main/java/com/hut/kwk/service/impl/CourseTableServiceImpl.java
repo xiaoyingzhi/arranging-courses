@@ -50,6 +50,22 @@ public class CourseTableServiceImpl implements ICourseTableService {
     }
 
     @Override
+    public ServerResponse<PageInfo<CourseTable>> findAllBy(Integer pageNum, Integer pageSize, Integer week, String courseName, String className, String teacherName, String roomName) {
+        CourseTableQuery query = new CourseTableQuery();
+        query.createCriteria().andStatuEqualTo(week)
+                .andCourseNameLike("%"+courseName+"%")
+                .andClassNameLike("%"+className+"%")
+                .andTecherNameLike("%"+teacherName+"%")
+                .andRoomNameLike("%"+roomName+"%");
+        PageHelper.startPage(pageNum, pageSize);
+        List<CourseTable> list = courseTableMapper.selectByExampleWithRowbounds(query,new RowBounds((pageNum-1)*10,pageSize));
+        PageInfo<CourseTable> pageInfo = new PageInfo<>(list);
+        pageInfo.setTotal(courseTableMapper.countByExample(query));
+        return ServerResponse.createBySuccess(pageInfo);
+
+    }
+
+    @Override
     public ServerResponse<String> add(CourseTable courseTable) {
         //todo
         return null;

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -57,5 +58,14 @@ public class CourseTableController {
     @RequestMapping("findAll")
     public ServerResponse<PageInfo<CourseTable>> findAll(Integer pageNum, Integer pageSize) {
         return iCourseTableService.findAll(pageNum, pageSize);
+    }
+
+    @RequestMapping("findAllBy")
+    public ServerResponse<PageInfo<CourseTable>> findAllBy(HttpServletRequest request,Integer pageNum, Integer pageSize, Integer week,
+                                                           String courseName, String className, String teacherName,
+                                                           String roomName) {
+        System.out.println(request.getRequestURI());
+        System.out.println(request.getServletPath());
+        return iCourseTableService.findAllBy(pageNum, pageSize,week,courseName,className,teacherName,roomName);
     }
 }

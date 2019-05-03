@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html>
 
@@ -16,13 +13,22 @@
 
 
 </head>
+<div class="layui-form-item" style="margin-top: 15px;">
+    <label class="layui-form-label">课程名：</label>
+    <div class="layui-input-inline">
+        <input type="text" id="courseName" name="courseName" lay-verify="required" placeholder="模糊搜索" autocomplete="off"
+            class="layui-input">
+    </div>
+
+    <a class="layui-btn layui-btn" id="find" lay-event="addTeaching" style="margin-left: 50px;">查询课程<a>
+
+</div>
 <table class="layui-hide" id="demo" name="user" lay-data="{height: 'full-200', cellMinWidth: 80, page: true, limit:10}"
     lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
           <button class="layui-btn layui-btn-sm" lay-event="add">添加课程</button>
-          <button class="layui-btn layui-btn-sm" lay-event="delete">删除课程</button>
         </div>
       </script>
 <script type="text/html" id="barDemo">
@@ -40,7 +46,7 @@
 
         table.render({
             elem: '#demo'
-            
+
             , url: 'http://139.196.101.194:8088/course/findAll' //数据接口
             , request: {
                 pageName: 'pageNum' //页码的参数名称，默认：page
@@ -59,11 +65,11 @@
             , toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             , cols: [[ //表头
                 { type: 'checkbox', fixed: 'left' }
-                , { field: 'id', title: 'ID', sort: true, fixed: 'left',align:"center"  }
-                , { field: 'courseName', title: '课程名字', align:"center" }
-                , { field: 'courseTime', title: '课程节数',  align:"center" }
-                , { field: 'statu', title: '单双周',  align: "center" }
-                , { fixed: 'right',  align: 'center', toolbar: '#barDemo' }
+                , { field: 'id', title: 'ID', sort: true, fixed: 'left', align: "center" }
+                , { field: 'courseName', title: '课程名字', align: "center" }
+                , { field: 'courseTime', title: '课程节数', align: "center" }
+                , { field: 'statu', title: '单双周', align: "center" }
+                , { fixed: 'right', align: 'center', toolbar: '#barDemo' }
             ]]
         });
 
@@ -99,6 +105,15 @@
         });
     });
 
+    $(document).ready(function () {
+        $("#find").click(function () {
+            table.reload('demo', {
+                url: "http://139.196.101.194:8088/course/findAllByName?courseName=" + $("#courseName").val()
+            })
+        });
+
+    });
+
     //添加用户
     function add(title) {
         var url = 'son/courseson.html?tag=add'
@@ -132,7 +147,7 @@
 
     //打开用户编辑窗口
     function opensUer(data, title) {
-        var  url = 'son/courseson.html?tag=update='+data.id;
+        var url = 'son/courseson.html?tag=update=' + data.id;
         layer.open({
             id: 'user',
             type: 2,
