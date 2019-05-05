@@ -14,28 +14,28 @@
 
 </head>
 <div class="layui-form-item" style="margin-top: 15px;">
-    <label class="layui-form-label">周次：</label>
+    <label class="layui-form-label" style="width: 50px;">周次：</label>
     <div class="layui-input-inline" style="width: 50px;">
         <input type="text" id="week" name="week" value="1" lay-verify="num" placeholder="请输入" autocomplete="off"
             class="layui-input">
     </div>
-    <label class="layui-form-label">课程名：</label>
+    <label class="layui-form-label" style="width: 60px;">课程名：</label>
     <div class="layui-input-inline" style="width: 100px;">
         <input type="text" id="courseName" name="courseName"  lay-verify="required" placeholder="模糊搜索" autocomplete="off"
             class="layui-input">
     </div>
-    <label class="layui-form-label">班级名：</label>
+    <label class="layui-form-label" style="width: 60px;">班级名：</label>
     <div class="layui-input-inline" style="width: 100px;">
         <input type="text" id="className" name="className" lay-verify="required" placeholder="模糊搜索" autocomplete="off"
             class="layui-input">
     </div>
 
-    <label class="layui-form-label">教师名：</label>
+    <label class="layui-form-label" style="width: 60px;">教师名：</label>
     <div class="layui-input-inline" style="width: 100px;">
         <input type="text" id="teacherName" name="teacherName" lay-verify="num" placeholder="模糊搜索" autocomplete="off"
             class="layui-input">
     </div>
-    <label class="layui-form-label">教室名：</label>
+    <label class="layui-form-label" style="width: 60px;">教室名：</label>
     <div class="layui-input-inline" style="width: 100px;">
         <input type="text" id="roomName" name="roomName" lay-verify="num" placeholder="模糊搜索" autocomplete="off"
             class="layui-input">
@@ -56,6 +56,7 @@
         </div>
       </script>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="adjust">调整</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
   </script>
 <script>
@@ -133,12 +134,6 @@
             var checkStatus = table.checkStatus(obj.config.id)
                 , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
-                case 'add':
-                    layer.alert("待开发")
-                    break;
-                case 'find':
-                    layer.alert("待开发")
-                    break;
                 case 'arr':
                     arr()
                     break;
@@ -150,27 +145,46 @@
             var data = obj.data //获得当前行数据
                 , layEvent = obj.event; //获得 lay-event 对应的值
             if (layEvent === 'del') {
-                layer.alert("待开发")
-            } else if (layEvent === 'edit') {
-                layer.alert("待开发")
-            } else if (layEvent == 'sendCourse') {
-                layer.alert("待开发")
-            }
+                del(data)
+            } else if (layEvent === 'adjust') {
+                adjust(data)
+            } 
         });
     });
 
-    $(document).ready(function () {
-        $("#find").click(function () {
-            table.reload('demo', {
-                url: "http://139.196.101.194:8088/course/findAllByName?courseName=" + $("#courseName").val()
-            })
+    function adjust(data) {
+        var url = 'son/adjust.html?id='+data.id;
+        console.log(data.id)
+        layer.open({
+            id: 'adjust',
+            type: 2,
+            title: "调课",
+            maxmin: true,
+            shadeClose: false, //点击遮罩关闭层
+            area: ['700px', '510px'],
+            content: url,
+            anim: 1,
         });
 
-    });
+    }
+
+    function del(data) {
+        layer.confirm('真的删除么', function (index) {
+            var url = "http://139.196.101.194:8088/coursetable/del?id=" + data.id;
+            $.get(url, function (data, status) {
+                console.log(url)
+                var ret = JSON.parse(JSON.stringify(data));
+                layer.msg(ret.msg);
+                if (ret.status == 0) {
+                    reload()
+                }
+            });
+        });
+
+    }
 
     function arr() {
         //询问框
-
         layer.confirm('确定排课吗？可能导致现有排课信息丢失，请先备份排课信息后确定', {
             btn: ['确定', '取消'] //按钮
         }, function () {

@@ -59,6 +59,7 @@
                     layer.msg("周次只能为1-20非空数字");
                     $("#week").val("");
                 } else {
+                    console.log("1111111")
                    reload();
                 }
             });
@@ -67,7 +68,7 @@
 
     //重新加载table
     function reload() {
-        table.reload('user', {
+        table.reload('demo', {
             url: "http://139.196.101.194:8088/classroom/findByWeek?week="+$("#week").val()+"&roomName="+$("#roomName").val()
         })
     }
@@ -99,7 +100,6 @@
                 , { field: 'classroomName', title: '教室名字', align: "center" }
                 , { field: 'day', title: '星期', sort: true, align: "center" }
                 , { field: 'number', title: '节数', sort: true, align: "center" }
-                , { fixed: 'right', align: 'center', toolbar: '#barDemo' }
             ]]
         });
     });

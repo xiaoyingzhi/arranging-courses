@@ -54,7 +54,9 @@ public class ArrangeServiceImpl implements IArrangeService {
            return ServerResponse.createByErrorMessage("班级："+arrange2.getClassName()+" 课程："+arrange2.getCourseName()+" 已经存在分配");
         }
         arrange.setStatu(number);
-        arrange.setSrd(courseMapper.selectOneByExample(new CourseQuery()).getStatu());
+        CourseQuery query1 = new CourseQuery();
+        query1.createCriteria().andIdEqualTo(arrange.getCourseId());
+        arrange.setSrd(courseMapper.selectOneByExample(query1).getStatu());
         int count = arrangeMapper.insertSelective(arrange);
         if (count == 0) {
             return ServerResponse.createByErrorMessage("分配失败");

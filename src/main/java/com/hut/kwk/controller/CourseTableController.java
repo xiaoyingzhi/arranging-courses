@@ -68,4 +68,18 @@ public class CourseTableController {
         System.out.println(request.getServletPath());
         return iCourseTableService.findAllBy(pageNum, pageSize,week,courseName,className,teacherName,roomName);
     }
+    /**
+     *  var day = data.day;
+     *         var week = data.week;
+     *         var number = data.number;
+     *         var classroomId = data.classroomId;
+     *         var classroomName = data.classroomName;
+     *         console.log(day+" "+week+" "+number+" "+classroomId+" "+classroomName)
+     *         console.log(courseTableId)
+     */
+    @RequestMapping("adjust")
+    public ServerResponse<String> adjust(Integer courseTableId,String day,Integer week,Integer number,String classroomName,Integer classroomId){
+
+        return iCourseTableService.adjust(courseTableId,classroomId,week,day,number,classroomName);
+    }
 }

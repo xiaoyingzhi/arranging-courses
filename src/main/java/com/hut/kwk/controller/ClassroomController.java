@@ -50,9 +50,14 @@ public class ClassroomController {
     }
 
     @RequestMapping("findByWeek")
-    public ServerResponse<PageInfo<ClassroomFree>> findByWeek(Integer pageNum, Integer pageSize, Integer week,String roomName) {
+    public ServerResponse<PageInfo<ClassroomFree>> findByWeek(Integer pageNum, Integer pageSize, Integer week,String roomName,String day) {
         List<ClassroomFree> byWeek = iClassroomService.findByWeek(week,roomName);
-        List<ClassroomFree> collect = byWeek.stream().skip((pageNum - 1) * pageSize).limit(pageSize).collect(Collectors.toList());
+        List<ClassroomFree> collect;
+        if (day!=null&&!"".equals(day)){
+             collect= byWeek.stream().filter(s->s.getDay().equals(day)).skip((pageNum - 1) * pageSize).limit(pageSize).collect(Collectors.toList());
+        }else {
+            collect= byWeek.stream().skip((pageNum - 1) * pageSize).limit(pageSize).collect(Collectors.toList());
+        }
         PageInfo<ClassroomFree> pageInfo = new PageInfo<>(collect);
         pageInfo.setTotal(byWeek.size());
         return ServerResponse.createBySuccess(pageInfo);

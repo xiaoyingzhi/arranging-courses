@@ -39,7 +39,7 @@ public class CourseTableServiceImpl implements ICourseTableService {
         CourseTableQuery query =new CourseTableQuery();
         CourseTableQuery.Criteria criteria = query.createCriteria();
         if (className!=null&&!"".equals(className)){
-            criteria.andClassNameEqualTo(className);
+            criteria.andClassNameLike("%"+className+"%");
         }
         if (teacherName!=null&&!"".equals(teacherName)){
             criteria.andTecherNameEqualTo(teacherName);
@@ -63,6 +63,21 @@ public class CourseTableServiceImpl implements ICourseTableService {
         pageInfo.setTotal(courseTableMapper.countByExample(query));
         return ServerResponse.createBySuccess(pageInfo);
 
+    }
+
+    @Override
+    public ServerResponse<String> adjust(Integer courseTableId, Integer classroomId, Integer week, String day, Integer number, String classroomName) {
+        CourseTable courseTable = courseTableMapper.selectByPrimaryKey(courseTableId);
+        courseTable.setStatu(week);
+        courseTable.setRoomId(classroomId);
+        courseTable.setRoomName(classroomName);
+        courseTable.setTimeName(day);
+        courseTable.setTimeId(number);
+        int count = courseTableMapper.updateByPrimaryKey(courseTable);
+        if (count >0){
+            return ServerResponse.createBySuccessMessage("调整成功");
+        }
+        return ServerResponse.createByErrorMessage("调整失败");
     }
 
     @Override

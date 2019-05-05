@@ -113,7 +113,7 @@
 
                 var url;
                 if (tag.length == 2) {
-                    url = "http://139.196.101.194:8088/teacher/add?name=" + $("#name").val() + "&phone=" + $("#phone").val() + "&limit=" + $("#limit").val();
+                    url = "http://139.196.101.194:8088/teacher/add?name=" + $("#name").val() + "&phone=" + $("#phone").val() + "&countLimit=" + $("#countLimit").val();
                 } else if (tag.length == 3) {
                     let id = window.location.href.split("=")[2];
                     url = "http://139.196.101.194:8088/teacher/update?id=" + id + "&name=" + $("#name").val() + "&phone=" + $("#phone").val() + "&countLimit=" + $("#countLimit").val();
