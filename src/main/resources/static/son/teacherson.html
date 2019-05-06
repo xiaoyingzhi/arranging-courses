@@ -61,7 +61,7 @@
             let tag = window.location.href.split("=");
             if (tag.length == 3 && tag[1] == "update") {
                 let id = window.location.href.split("=")[2];
-                var u = "http://139.196.101.194:8088/teacher/find?id=" + id;
+                var u = "http://127.0.0.1:8088/teacher/find?id=" + id;
                 $.get(u, function (data, status) {
                     console.log(u)
                     var ret = JSON.parse(JSON.stringify(data));
@@ -113,10 +113,10 @@
 
                 var url;
                 if (tag.length == 2) {
-                    url = "http://139.196.101.194:8088/teacher/add?name=" + $("#name").val() + "&phone=" + $("#phone").val() + "&countLimit=" + $("#countLimit").val();
+                    url = "http://127.0.0.1:8088/teacher/add?name=" + $("#name").val() + "&phone=" + $("#phone").val() + "&countLimit=" + $("#countLimit").val();
                 } else if (tag.length == 3) {
                     let id = window.location.href.split("=")[2];
-                    url = "http://139.196.101.194:8088/teacher/update?id=" + id + "&name=" + $("#name").val() + "&phone=" + $("#phone").val() + "&countLimit=" + $("#countLimit").val();
+                    url = "http://127.0.0.1:8088/teacher/update?id=" + id + "&name=" + $("#name").val() + "&phone=" + $("#phone").val() + "&countLimit=" + $("#countLimit").val();
                 }
                 console.log(url)
                 var datas = JSON.parse(JSON.stringify(data.field));

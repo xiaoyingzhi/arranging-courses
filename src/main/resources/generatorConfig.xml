@@ -42,7 +42,7 @@
 
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://139.196.101.194:3306/arranging_courses?useSSL=false&amp;characterEncoding=utf8"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/arranging_courses?useSSL=false&amp;characterEncoding=utf8"
                         userId="root"
                         password="Wh1206123.">
         </jdbcConnection>

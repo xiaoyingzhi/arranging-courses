@@ -53,8 +53,8 @@ public class UserController {
 
         ServerResponse<User> login = iUserService.login(username, password, role);
         if (login.isSuccess()) {
-            session.setAttribute(session.getId(), login.getData());
-
+            session.setAttribute("user", login.getData());
+            System.out.println(session.getId());
         }
         return login;
     }
